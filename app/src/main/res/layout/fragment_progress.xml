@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.fragment.ProgressFragment">
+
+
+    <LinearLayout
+        android:id="@+id/view_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+
+        <com.xuexiang.xui.widget.progress.materialprogressbar.MaterialProgressBar
+            android:id="@+id/progress"
+            android:outlineAmbientShadowColor="@color/theme_blue"
+            android:layout_width="wrap_content"
+            android:indeterminateTint="@color/theme_blue"
+            android:indeterminateTintMode="src_atop"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+
+            android:textColor="@color/TextColor"
+            android:text="@string/xui_tip_loading_message"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/view_contern"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/view_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/text_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/xui_tip_empty_message"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_btn"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_btn"
+            android:textColor="@color/theme_blue"
+            android:text="登录"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+"
+
+
+    </LinearLayout>
+</FrameLayout>

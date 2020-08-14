@@ -1,0 +1,124 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/theme_black</item>
+    </style>
+
+
+    <!-- bmob application theme. -->
+    <style name="AppTheme1" parent="XUITheme.Phone">
+        <item name="android:windowAnimationStyle">@style/Animation</item>
+        <item name="colorPrimary">@color/theme_while</item>
+        <item name="colorPrimaryDark">@color/TextColor</item>
+        <item name="colorAccent">@color/theme_blue</item>
+        <item name="android:textColor">@color/TextColor</item>
+        <item name="android:textColorPrimary">@color/TextColor</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+
+    <!--当我们从 A1 启动 A2 时，A1 从屏幕上消失，这个动画叫做 android:activityOpenExitAnimation-->
+    <!--当我们从 A1 启动 A2 时，A2 出现在屏幕上，这个动画叫做 android:activityOpenEnterAnimation-->
+    <!--当我们从 A2 退出回到 A1 时，A2 从屏幕上消失，这个叫做 android:activityCloseExitAnimation-->
+    <!--当我们从 A2 退出回到 A1 时，A1 出现在屏幕上，这个叫做 android:activityCloseEnterAnimation-->
+    <style name="Animation" parent="@android:style/Animation">
+        <item name="android:activityOpenEnterAnimation">@anim/on_activity_open</item>
+        <item name="android:activityOpenExitAnimation">@anim/on_activity_puse</item>
+        <item name="android:activityCloseEnterAnimation">@anim/on_activity_reopen</item>
+        <item name="android:activityCloseExitAnimation">@anim/on_activity_close</item>
+        <item name="android:taskOpenEnterAnimation">@anim/on_activity_open</item>
+        <item name="android:taskOpenExitAnimation">@anim/on_activity_puse</item>
+        <item name="android:taskCloseEnterAnimation">@anim/on_activity_reopen</item>
+        <item name="android:taskCloseExitAnimation">@anim/on_activity_close</item>
+        <item name="android:taskToFrontEnterAnimation">@null</item>
+        <item name="android:taskToFrontExitAnimation">@null</item>
+        <item name="android:taskToBackEnterAnimation">@null</item>
+        <item name="android:taskToBackExitAnimation">@null</item>
+    </style>
+
+
+    <style name="MyEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/theme_grey</item>
+        <item name="colorControlActivated">@color/xui_config_color_red</item>
+        <!--设置背景色-->
+        <item name="android:background">@color/theme_while</item>
+        <!--设置文字大小-->
+        <item name="android:textSize">15sp</item>
+        <!--设置文字颜色-->
+        <item name="android:textColor">@color/theme_black</item>
+        <!--设置Hint文字颜色-->
+        <item name="android:textColorHint">@color/theme_grey</item>
+    </style>
+
+
+    <style name="CustomProgressStyle" parent="@android:style/Widget.ProgressBar">
+        <item name="android:minWidth">24dp</item>
+        <item name="android:maxWidth">24dp</item>
+        <item name="android:minHeight">24dp</item>
+        <item name="android:maxHeight">24dp</item>
+    </style>
+
+    <!--透明的样式-->
+    <style name="Transparent" parent="AppTheme1">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Text_Title">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/TextColor</item>
+    </style>
+
+    <style name="Text_Content">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/theme_grey</item>
+    </style>
+
+    <style name="Text_Title_Large" parent="Text_Title">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="Text_Content_grey_800">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/theme_grey</item>
+    </style>
+
+    <style name="AppTheme1.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme1.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme1.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.ToolBar" parent="AppTheme">
+        <!-- 箭头 -->
+        <item name="drawerArrowStyle">@style/AppTheme.DrawerArrowToggle</item>
+        <item name="android:windowActionBarOverlay">@style/ActionButton.Overflow</item>
+        <item name="actionOverflowButtonStyle">@style/ActionButton.Overflow</item>
+        <item name="titleTextColor">@android:color/black</item>
+    </style>
+
+    <style name="ActionButton.Overflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@mipmap/ic_menu_more_overflow</item>
+    </style>
+
+
+    <style name="AppTheme.DrawerArrowToggle" parent="Base.Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@android:color/black</item>
+    </style>
+
+<!--    <style name="AppTheme.ToolBar"></style>-->
+
+    <style name="empty_img">
+        <item name="android:layout_width">@dimen/def_height</item>
+        <item name="android:layout_height">@dimen/def_height</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+</resources>
