@@ -22,7 +22,7 @@ import com.hym.appstore.R;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-
+//https://github.com/AriesJiang/AriesDemo/blob/a44d31c5c88ac9ea0c08e688cf6ea26f138b92b9/app/src/main/java/com/niqiu/ui/progressbar/download/DownloadProgressButton.java
 public class DownloadProgressButton2Detail extends androidx.appcompat.widget.AppCompatTextView {
         private Paint mBackgroundPaint;
         //按钮文字画笔
