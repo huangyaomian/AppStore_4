@@ -25,6 +25,7 @@ import com.hym.appstore.common.Constant;
 import com.hym.appstore.common.imageloader.ImageLoadConfig;
 import com.hym.appstore.common.imageloader.ImageLoader;
 import com.hym.appstore.ui.activity.AppDetailsActivity;
+import com.hym.appstore.ui.activity.AppDetailsActivity2;
 import com.hym.appstore.ui.activity.HomeAppActivity;
 import com.hym.appstore.ui.activity.SubjectActivity;
 import com.hym.appstore.ui.widget.BannerLayout;
@@ -179,9 +180,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
                 public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
                     Toast.makeText(mContext,"onItemClick " + position, Toast.LENGTH_SHORT).show();
                     AppInfoBean appInfoBean = (AppInfoBean)adapter.getItem(position);
-                    Intent intent = new Intent(mContext, AppDetailsActivity.class);
+                    Intent intent = new Intent(mContext, AppDetailsActivity2.class);
                     intent.putExtra("appInfo",appInfoBean);
-                    intent.putExtra("isAnim",false);
 //                    startActivity(intent);
                     mContext.startActivity(intent);
                 }

@@ -1,19 +1,29 @@
-package com.hym.appstore.ui.fragment;
+package com.hym.appstore.ui.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.google.android.material.appbar.AppBarLayout;
 import com.hym.appstore.R;
 import com.hym.appstore.bean.AppInfoBean;
 import com.hym.appstore.bean.User;
@@ -23,14 +33,17 @@ import com.hym.appstore.common.rx.RxBus;
 import com.hym.appstore.common.utils.DateUtils;
 import com.hym.appstore.dagger2.component.AppComponent;
 import com.hym.appstore.dagger2.component.DaggerAppDetailComponent;
+import com.hym.appstore.dagger2.component.DaggerMainComponent;
 import com.hym.appstore.dagger2.module.AppDetailModule;
+import com.hym.appstore.dagger2.module.MainModule;
 import com.hym.appstore.presenter.AppDetailPresenter;
 import com.hym.appstore.presenter.contract.AppInfoContract;
-import com.hym.appstore.ui.activity.AppDetailsActivity;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
-import com.hym.appstore.ui.widget.DownloadButtonController;
+import com.hym.appstore.ui.widget.BadgeActionProvider;
 import com.hym.appstore.ui.widget.DownloadButtonController2Detail;
 import com.hym.appstore.ui.widget.DownloadProgressButton2Detail;
+import com.mikepenz.iconics.IconicsDrawable;
+import com.mikepenz.ionicons_typeface_library.Ionicons;
 import com.xuexiang.xui.widget.textview.ExpandableTextView;
 
 import java.util.Arrays;
@@ -39,11 +52,17 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
 
+public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView {
 
-public class AppDetailFragment extends ProgressFragment<AppDetailPresenter> implements AppInfoContract.AppDetailView {
+
+    @BindView(R.id.img_icon)
+    ImageView mImgIcon;
+    @BindView(R.id.display_name)
+    TextView mDisplayName;
 
     @BindView(R.id.view_gallery)
     LinearLayout viewGallery;
@@ -78,56 +97,88 @@ public class AppDetailFragment extends ProgressFragment<AppDetailPresenter> impl
     @Inject
     RxDownload mRxDownload;
 
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.appBarLayout)
+    AppBarLayout mAppBarLayout;
+
 
     private int mAppId;
     private LayoutInflater mLayoutInflater;
     private AppInfoAdapter mAppInfoAdapterSame;
     private AppInfoAdapter mAppInfoAdapterRelate;
     private DownloadButtonController2Detail mDownloadButtonController2Detail;
-
-    public AppDetailFragment(int appId) {
-        this.mAppId = appId;
-    }
-
-    @Override
-    protected void init() {
-        mDownloadButtonController2Detail = new DownloadButtonController2Detail(mRxDownload);
-        RxBus.getDefault().toObservable(User.class).subscribe(new Consumer<User>() {
-            @Override
-            public void accept(User user) {
-                mPresenter.getAppDetail(mAppId);
-            }
-        });
-        mLayoutInflater = LayoutInflater.from(getActivity());
-        mPresenter.getAppDetail(mAppId);
-
-    }
-
-    @Override
-    protected void initView() {
-
-    }
-
-    @Override
-    protected void initEvent() {
-
-    }
+    private AppInfoBean mAppInfoBean;
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_app_detail;
+        return R.layout.activity_app_details2;
     }
+
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerAppDetailComponent.builder().appComponent(appComponent).appDetailModule(new AppDetailModule(this))
-                .build().inject(this);
+                .build().injectActivity(this);
     }
+
+    @Override
+    public void init() {
+
+        initToolbar();
+
+        mAppInfoBean = (AppInfoBean) getIntent().getSerializableExtra("appInfo");
+        if (mAppInfoBean != null) {
+            mToolbar.setTitle(mAppInfoBean.getDisplayName());
+            mDisplayName.setText(mAppInfoBean.getDisplayName());
+            ImageLoader.load(Constant.BASE_IMG_URL + mAppInfoBean.getIcon(), mImgIcon);
+        }
+
+        mAppId = mAppInfoBean.getId();
+
+        mDownloadButtonController2Detail = new DownloadButtonController2Detail(mRxDownload);
+
+        mLayoutInflater = LayoutInflater.from(this);
+
+    }
+
+    private void initToolbar(){
+
+        mToolbar.setNavigationIcon(
+                new IconicsDrawable(this)
+                        .icon(Ionicons.Icon.ion_ios_arrow_back)
+                        .sizeDp(16)
+                        .color(getResources().getColor(R.color.theme_black)
+                        )
+        );
+
+        mToolbar.setOverflowIcon(new IconicsDrawable(this, Ionicons.Icon.ion_android_more_vertical).color(getResources().getColor(R.color.TextColor)).actionBar());
+
+    }
+
+
+    @Override
+    public void initView() {
+        mPresenter.getAppDetail(mAppId);
+    }
+
+    @Override
+    public void initEvent() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+    }
+
 
     @Override
     public void showAppDetail(AppInfoBean appInfoBean) {
 
         mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,appInfoBean);
+
         showScreenshot(appInfoBean.getScreenshot());
 
         viewIntroduction.setText(appInfoBean.getIntroduction());
@@ -142,7 +193,7 @@ public class AppDetailFragment extends ProgressFragment<AppDetailPresenter> impl
             layoutViewSameDev.setVisibility(View.VISIBLE);
             mAppInfoAdapterSame = AppInfoAdapter.builder().layout(R.layout.template_appinfo2_item)
                     .showName(false).showApkSize(true).showBrief(false).showCategoryName(false).showPosition(false).build();
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             recyclerViewSameDev.setLayoutManager(linearLayoutManager);
 
             mAppInfoAdapterSame.addData(appInfoBean.getSameDevAppInfoList());
@@ -152,7 +203,7 @@ public class AppDetailFragment extends ProgressFragment<AppDetailPresenter> impl
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                     AppInfoBean appInfoBean = mAppInfoAdapterSame.getItem(position);
-                    Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
+                    Intent intent = new Intent(AppDetailsActivity2.this, AppDetailsActivity2.class);
                     intent.putExtra("appInfo", appInfoBean);
                     intent.putExtra("isAnim", false);
                     startActivity(intent);
@@ -166,7 +217,7 @@ public class AppDetailFragment extends ProgressFragment<AppDetailPresenter> impl
             layoutViewRelate.setVisibility(View.VISIBLE);
             mAppInfoAdapterRelate = AppInfoAdapter.builder().layout(R.layout.template_appinfo2_item).showName(false)
                     .showApkSize(true).showBrief(false).showCategoryName(false).showPosition(false).build();
-            recyclerViewRelate.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+            recyclerViewRelate.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
             mAppInfoAdapterRelate.addData(appInfoBean.getRelateAppInfoList());
             recyclerViewRelate.setAdapter(mAppInfoAdapterRelate);
 
@@ -174,9 +225,8 @@ public class AppDetailFragment extends ProgressFragment<AppDetailPresenter> impl
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                     AppInfoBean appInfoBean = mAppInfoAdapterRelate.getItem(position);
-                    Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
+                    Intent intent = new Intent(AppDetailsActivity2.this, AppDetailsActivity2.class);
                     intent.putExtra("appInfo", appInfoBean);
-                    intent.putExtra("isAnim", false);
                     startActivity(intent);
                 }
             });
@@ -194,6 +244,26 @@ public class AppDetailFragment extends ProgressFragment<AppDetailPresenter> impl
             ImageLoader.load(Constant.BASE_IMG_URL + url, imageView);
             viewGallery.addView(imageView);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_details, menu);//加载toolbar.xml 菜单文件
+
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.setting1:
+                Toast.makeText(this, "you clicked 11", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.setting2:
+                Toast.makeText(this, "you clicked 22", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 
 

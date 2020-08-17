@@ -31,8 +31,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     public T mPresenter;
 
 
-/*    @Inject
-    public WaitDialog mWaitDialog;*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

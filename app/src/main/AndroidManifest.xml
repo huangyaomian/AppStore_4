@@ -18,6 +18,8 @@
         <activity
             android:name=".ui.activity.AppDetailsActivity"
             android:theme="@style/Transparent" />
+        <activity
+            android:name=".ui.activity.AppDetailsActivity2" />
         <activity android:name=".ui.activity.SortAppActivity" />
         <activity android:name=".ui.activity.LoginActivity" />
         <activity android:name=".ui.activity.AppManagerActivity" />

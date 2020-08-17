@@ -47,11 +47,10 @@ public abstract class ProgressActivity<T extends BasePresenter> extends AppCompa
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        LayoutInflaterCompat.setFactory2(getLayoutInflater(),new IconicsLayoutInflater2(getDelegate()));
 
+        LayoutInflaterCompat.setFactory2(getLayoutInflater(),new IconicsLayoutInflater2(getDelegate()));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_progress);
-
         StatusBarUtils.initStatusBarStyle(this,false, ActivityCompat.getColor(this, R.color.theme_blue));
         mMyApplication = (MyApplication) getApplication();
         setupActivityComponent(mMyApplication.getAppComponent());
@@ -79,45 +78,12 @@ public abstract class ProgressActivity<T extends BasePresenter> extends AppCompa
 
     }
 
-  /*  @Override
-    public void setContentView(@LayoutRes int layoutResID) {
-        View view = getLayoutInflater().inflate(R.layout.activity_base, null);
-        //设置填充activity_base布局
-        super.setContentView(view);
 
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
-            view.setFitsSystemWindows(true);
-        }
-
-        //加载子类Activity的布局
-        initDefaultView(layoutResID);
-    }*/
 
     private void initDefaultView(int layoutResId) {
         View childView = LayoutInflater.from(this).inflate(setLayoutResourceID(), null);
         mRootView.addView(childView, 0);
     }
-
-    /*@Nullable
-    @Override
-    public View onCreateView(@Nullable View parent, @NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
-        mRootView = (FrameLayout) getLayoutInflater().from(this).inflate(R.layout.fragment_progress,null);
-        mViewProgress = mRootView.findViewById(R.id.view_progress);
-        mViewEmpty = mRootView.findViewById(R.id.view_empty);
-        mViewContent = mRootView.findViewById(R.id.view_contern);
-        mTextError = mRootView.findViewById(R.id.text_tip);
-        mLoginButton = mRootView.findViewById(R.id.login_btn);
-        mTextError.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onEmptyViewClick();
-            }
-        });
-
-        return mRootView;
-    }*/
-
-
 
 
 
@@ -153,17 +119,6 @@ public abstract class ProgressActivity<T extends BasePresenter> extends AppCompa
 
     }
 
-/*    private View createLoadingView() {
-        mViewProgress = LayoutInflater.from(this).inflate(R.layout.fragment_progress, null);
-        img = mViewProgress.getRootView().findViewById(R.id.progress);
-        // 加载动画 这边也可以直接用progressbar
-        mAnimationDrawable = (AnimationDrawable) img.getDrawable();
-        // 默认进入页面就开启动画
-        if (!mAnimationDrawable.isRunning()) {
-            mAnimationDrawable.start();
-        }
-        return loadingView;
-    }*/
 
     protected  void setRealContentView(){
         View realContentView = LayoutInflater.from(this).inflate(setLayoutResourceID(), mViewContent, true);

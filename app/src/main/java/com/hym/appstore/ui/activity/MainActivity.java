@@ -213,7 +213,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         MenuItem downloadMenuItem = toolbar.getMenu().findItem(R.id.delete);
         badgeActionProvider = (BadgeActionProvider) MenuItemCompat.getActionProvider(downloadMenuItem);
 
-
         menu.findItem(R.id.search).setIcon(new IconicsDrawable(this, Ionicons.Icon.ion_ios_search).color(getResources().getColor(R.color.TextColor)).actionBar());
 
         return true;

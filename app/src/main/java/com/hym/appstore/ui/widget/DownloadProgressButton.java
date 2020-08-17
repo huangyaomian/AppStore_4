@@ -234,7 +234,6 @@ public class DownloadProgressButton extends View {
     }
 
     public void download(){
-
         this.setStatue(downloadStatue);
         invalidate();
     }
