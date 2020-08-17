@@ -1,274 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/theme_while"
     android:orientation="vertical"
-    tools:context=".ui.activity.AppDetailsActivity">
-
-
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:background="@color/theme_while"
-        android:paddingBottom="10dp"
-        android:scrollbars="none">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/view_gallery"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
-        </LinearLayout>
-
-    </HorizontalScrollView>
+    >
 
     <LinearLayout
-        style="@style/Text_Title_Large"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:text="应用描述"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/theme_while"
+        android:orientation="vertical"
+        tools:context=".ui.activity.AppDetailsActivity"
         >
 
-        <com.xuexiang.xui.widget.textview.ExpandableTextView
-            android:id="@+id/view_introduction"
+
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@color/theme_while"
+            android:paddingBottom="10dp"
+            android:scrollbars="none">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/view_gallery"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <LinearLayout
+            style="@style/Text_Title_Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@color/theme_while"
-            app:etv_animDuration="200"
-            app:etv_maxCollapsedLines="4"
-            app:etv_animAlphaStart="0.7">
-            <TextView
-                android:id="@+id/expandable_text"
-                style="@style/Text_Content"
+            android:padding="15dp"
+            android:text="应用描述"
+            >
+
+            <com.xuexiang.xui.widget.textview.ExpandableTextView
+                android:id="@+id/view_introduction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp" />
+                android:layout_marginTop="20dp"
+                android:background="@color/theme_while"
+                app:etv_animDuration="200"
+                app:etv_maxCollapsedLines="4"
+                app:etv_animAlphaStart="0.7">
+                <TextView
+                    android:id="@+id/expandable_text"
+                    style="@style/Text_Content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
 
-            <ImageButton
-                android:id="@+id/expand_collapse"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:background="@android:color/transparent"
-                android:padding="?attr/xui_config_content_spacing_vertical"/>
+                <ImageButton
+                    android:id="@+id/expand_collapse"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|bottom"
+                    android:background="@android:color/transparent"
+                    android:padding="?attr/xui_config_content_spacing_vertical"/>
 
 
-        </com.xuexiang.xui.widget.textview.ExpandableTextView>
+            </com.xuexiang.xui.widget.textview.ExpandableTextView>
 
 
-        <!--<com.ms.square.android.expandabletextview.ExpandableTextView
-            android:id="@+id/view_introduction"
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:background="@color/theme_while"
-            app:animDuration="200"
-            app:maxCollapsedLines="4">
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="15dp">
+
             <TextView
-                android:id="@+id/expandable_text"
-                style="@style/Text_Content"
+                style="@style/Text_Title_Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="详细信息" />
+
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp" />
-            <ImageButton
-                android:id="@+id/expand_collapse"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text_Content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="更新时间" />
+
+                <TextView
+                    android:id="@+id/txt_update_time"
+                    style="@style/Text_Content_grey_800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="0000.0.0" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text_Content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="最新版本" />
+
+                <TextView
+                    android:id="@+id/txt_version"
+                    style="@style/Text_Content_grey_800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/Text_Content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="应用大小" />
+
+                <TextView
+                    android:id="@+id/txt_apk_size"
+                    style="@style/Text_Content_grey_800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="00 mb" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    style="@style/Text_Content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="开发者" />
+
+                <TextView
+                    android:id="@+id/txt_publisher"
+                    style="@style/Text_Content_grey_800"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="广州菜鸟窝" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_view_same_dev"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/theme_while"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="15dp">
+
+            <TextView
+                style="@style/Text_Title_Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|bottom"
-                android:background="@android:color/transparent"
-                android:padding="16dp"/>
-        </com.ms.square.android.expandabletextview.ExpandableTextView>-->
+                android:text="相同开发者的应用" />
+
+            <TextView
+                android:id="@+id/txt_publisher2"
+                style="@style/Text_Content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相同开发者的应用" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_same_dev"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clipToPadding="false"
+                android:elevation="1dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_view_relate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/theme_while"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:padding="15dp">
+
+            <TextView
+                style="@style/Text_Title_Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="相关的应用" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_relate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:clipToPadding="false"
+                android:elevation="1dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="none" />
+
+
+        </LinearLayout>
+
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/theme_while"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_height="40dp"
+        android:id="@+id/linearLayout_btn"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true">
 
-        <TextView
-            style="@style/Text_Title_Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="详细信息" />
-
-
-        <LinearLayout
+        <com.hym.appstore.ui.widget.DownloadProgressButton2Detail
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/Text_Content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="更新时间" />
-
-            <TextView
-                android:id="@+id/txt_update_time"
-                style="@style/Text_Content_grey_800"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="0000.0.0" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/Text_Content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="最新版本" />
-
-            <TextView
-                android:id="@+id/txt_version"
-                style="@style/Text_Content_grey_800"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="00" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/Text_Content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="应用大小" />
-
-            <TextView
-                android:id="@+id/txt_apk_size"
-                style="@style/Text_Content_grey_800"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="00 mb" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-
-            <TextView
-                style="@style/Text_Content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="开发者" />
-
-            <TextView
-                android:id="@+id/txt_publisher"
-                style="@style/Text_Content_grey_800"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="广州菜鸟窝" />
-
-        </LinearLayout>
+            android:id="@+id/download_detail_btn"
+            android:layout_height="match_parent"
+            app:progress_btn_background_color="@color/theme_blue"
+            app:progress_btn_radius="5dp"
+            app:progress_btn_background_second_color="@color/colorPrimary"
+            app:progress_btn_text_color="@android:color/black"
+            app:progress_btn_text_cover_color="@android:color/white"
+            app:progress_btn_ball_style="STYLE_BALL_PULSE"
+            app:progress_btn_border_width="2dp"/>
 
 
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_view_same_dev"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@color/theme_while"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="15dp">
-
-        <TextView
-            style="@style/Text_Title_Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="相同开发者的应用" />
-
-        <TextView
-            android:id="@+id/txt_publisher2"
-            style="@style/Text_Content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="相同开发者的应用" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_same_dev"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:clipToPadding="false"
-            android:elevation="1dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="none" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/layout_view_relate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
-        android:layout_marginTop="10dp"
-        android:background="@color/theme_while"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="15dp">
-
-        <TextView
-            style="@style/Text_Title_Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="相关的应用" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_relate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:clipToPadding="false"
-            android:elevation="1dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbars="none" />
-
-
-    </LinearLayout>
-
 
 </LinearLayout>
