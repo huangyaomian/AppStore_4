@@ -8,6 +8,7 @@ import com.hym.appstore.presenter.contract.AppInfoContract;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import zlc.season.rxdownload2.RxDownload;
 
@@ -32,6 +33,11 @@ public class AppDetailPresenter extends BasePresenter<AppInfoModel, AppInfoContr
                 });
 
 
+    }
+
+    //删除下载记录
+    public Observable<Boolean> DelDownloadApp(String url, boolean deleteFile,RxDownload rxDownload){
+        return mModel.DelDownloadRecord(url,deleteFile,rxDownload);
     }
 
 

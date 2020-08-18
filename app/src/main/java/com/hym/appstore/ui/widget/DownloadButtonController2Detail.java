@@ -185,7 +185,7 @@ public class DownloadButtonController2Detail {
     }
 
     //    开启下载
-    private void startDownload(final DownloadProgressButton2Detail btn, final AppInfoBean appInfoBean){
+    public void startDownload(final DownloadProgressButton2Detail btn, final AppInfoBean appInfoBean){
         PermissionUtil.requestPermission(btn.getContext(),WRITE_EXTERNAL_STORAGE)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
@@ -366,7 +366,7 @@ public class DownloadButtonController2Detail {
             flag = event.getFlag();
             btn.setTag(R.id.tag_apk_flag, flag);
 
-            Log.d("hymmm","bindClick:accept=" + mAppInfo.getDisplayName());
+            Log.d("hymmm","DownloadConsumer:accept=" + mAppInfo.getDisplayName());
 
             bindClick(btn, mAppInfo);
 

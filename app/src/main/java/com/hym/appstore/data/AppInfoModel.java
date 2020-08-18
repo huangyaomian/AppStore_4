@@ -8,8 +8,10 @@ import com.hym.appstore.bean.PageBean;
 import com.hym.appstore.data.okhttp.ApiService;
 
 import io.reactivex.Observable;
+import zlc.season.rxdownload2.RxDownload;
 
 public class AppInfoModel {
+
     private ApiService mApiService;
 
     public AppInfoModel(ApiService mApiService) {
@@ -44,5 +46,15 @@ public class AppInfoModel {
     public Observable<BaseBean<AppInfoBean>> getAppDetail(int id) {
         return mApiService.getAppDetail(id);
     }
+
+    //删除下载记录
+    public Observable<Boolean> DelDownloadRecord(String url, boolean deleteFile, RxDownload rxDownload){
+        return (Observable<Boolean>) rxDownload.deleteServiceDownload(url,deleteFile);
+    }
+
+    //重新下载
+//    public Observable<Boolean> ReDownloadRecord(String url, boolean deleteFile, RxDownload rxDownload){
+////        return (Observable<Boolean>) rxDownload.red;
+//    }
 
 }

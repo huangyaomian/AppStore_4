@@ -1,7 +1,9 @@
 package com.hym.appstore.ui.activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,6 +32,7 @@ import com.hym.appstore.bean.User;
 import com.hym.appstore.common.Constant;
 import com.hym.appstore.common.imageloader.ImageLoader;
 import com.hym.appstore.common.rx.RxBus;
+import com.hym.appstore.common.utils.AppUtils;
 import com.hym.appstore.common.utils.DateUtils;
 import com.hym.appstore.dagger2.component.AppComponent;
 import com.hym.appstore.dagger2.component.DaggerAppDetailComponent;
@@ -38,6 +41,8 @@ import com.hym.appstore.dagger2.module.AppDetailModule;
 import com.hym.appstore.dagger2.module.MainModule;
 import com.hym.appstore.presenter.AppDetailPresenter;
 import com.hym.appstore.presenter.contract.AppInfoContract;
+import com.hym.appstore.service.receiver.MyInstallListener;
+import com.hym.appstore.service.receiver.MyInstallReceiver;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
 import com.hym.appstore.ui.widget.BadgeActionProvider;
 import com.hym.appstore.ui.widget.DownloadButtonController2Detail;
@@ -56,7 +61,7 @@ import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
 
-public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView {
+public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView, MyInstallListener {
 
 
     @BindView(R.id.img_icon)
@@ -110,6 +115,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
     private AppInfoAdapter mAppInfoAdapterRelate;
     private DownloadButtonController2Detail mDownloadButtonController2Detail;
     private AppInfoBean mAppInfoBean;
+    private MyInstallReceiver mMyInstallReceiver;
 
     @Override
     protected int setLayoutResourceID() {
@@ -128,6 +134,8 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
         initToolbar();
 
+        registerMyInstallReceiver();
+
         mAppInfoBean = (AppInfoBean) getIntent().getSerializableExtra("appInfo");
         if (mAppInfoBean != null) {
             mToolbar.setTitle(mAppInfoBean.getDisplayName());
@@ -144,6 +152,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
     }
 
     private void initToolbar(){
+        setSupportActionBar(mToolbar);
 
         mToolbar.setNavigationIcon(
                 new IconicsDrawable(this)
@@ -176,8 +185,11 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void showAppDetail(AppInfoBean appInfoBean) {
+        if (appInfoBean != null) {
+            mAppInfoBean = appInfoBean;
+            mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,appInfoBean);
+        }
 
-        mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,appInfoBean);
 
         showScreenshot(appInfoBean.getScreenshot());
 
@@ -248,23 +260,81 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_details, menu);//加载toolbar.xml 菜单文件
+        getMenuInflater().inflate(R.menu.toolbar_details, menu);
+        //加载toolbar.xml 菜单文件
 
         return true;
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.delete_apk:
+                Toast.makeText(this, "you clicked delete_apk", Toast.LENGTH_SHORT).show();
+                //删除下载记录和删除本地apk
+                mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
 
-            case R.id.setting1:
-                Toast.makeText(this, "you clicked 11", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.setting2:
-                Toast.makeText(this, "you clicked 22", Toast.LENGTH_SHORT).show();
+            case R.id.re_download:
+                Toast.makeText(this, "you clicked re_download", Toast.LENGTH_SHORT).show();
+                mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_NORMAL);
+                        mDownloadButtonController2Detail.startDownload(mDownloadDetailBtn,mAppInfoBean);
+                    }
+                });
+                break;
+            case R.id.uninstall:
+                Toast.makeText(this, "you clicked uninstall", Toast.LENGTH_SHORT).show();
+                AppUtils.uninstallApk(this, mAppInfoBean.getPackageName());
                 break;
         }
         return true;
     }
 
 
+    private void registerMyInstallReceiver(){
+        mMyInstallReceiver = new MyInstallReceiver();
+        mMyInstallReceiver.registerListener(this);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.PACKAGE_ADDED");
+        filter.addAction("android.intent.action.PACKAGE_REMOVED");
+        filter.addAction("android.intent.action.PACKAGE_REPLACED");
+        filter.addDataScheme("package");
+        this.registerReceiver(mMyInstallReceiver, filter);
+    }
+
+    @Override
+    public void PackageAdded(String packageName) {
+        if (packageName.equals(mAppInfoBean.getPackageName())) {
+            mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_FINISH);
+            mDownloadDetailBtn.setCurrentText("运行");
+            mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe(new Consumer<Boolean>() {
+                @Override
+                public void accept(Boolean aBoolean) throws Exception {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void PackageRemoved(String packageName) {
+        if (packageName.equals(mAppInfoBean.getPackageName())) {
+            mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_NORMAL);
+        }
+    }
+
+    @Override
+    public void PackageReplaced(String packageName) {
+        Log.d("hymmm", "ProgressFragment: " + "覆盖安装了应用："+packageName);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if(mMyInstallReceiver != null) {
+            this.unregisterReceiver(mMyInstallReceiver);
+        }
+        super.onDestroy();
+    }
 }

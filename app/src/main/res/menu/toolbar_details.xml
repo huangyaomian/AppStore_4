@@ -5,15 +5,21 @@
     >
 
     <item
-        android:id="@+id/setting1"
+        android:id="@+id/delete_apk"
         android:icon="@drawable/ic_launcher_background"
-        android:title="11"
+        android:title="删除apk"
         app:showAsAction="never"/>
     <!--never 表示永远显示在菜单中 -->
     <item
-        android:id="@+id/setting2"
+        android:id="@+id/re_download"
         android:icon="@drawable/ic_launcher_background"
-        android:title="22"
+        android:title="重新下载"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/uninstall"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="卸载"
         app:showAsAction="never"/>
 
 </menu>
