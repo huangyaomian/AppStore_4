@@ -22,4 +22,10 @@
         android:title="卸载"
         app:showAsAction="never"/>
 
+    <item
+        android:id="@+id/cancel_download"
+        android:icon="@drawable/ic_launcher_background"
+        android:title="取消下載"
+        app:showAsAction="never"/>
+
 </menu>

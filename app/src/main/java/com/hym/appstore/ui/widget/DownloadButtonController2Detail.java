@@ -131,7 +131,6 @@ public class DownloadButtonController2Detail {
 
 
 
-
     }
 
     /**
@@ -161,6 +160,7 @@ public class DownloadButtonController2Detail {
 
                     case DownloadFlag.FAILED:
                     case DownloadFlag.NORMAL:
+                    case DownloadFlag.WAITING:
                     case DownloadFlag.PAUSED:
                     case DownloadFlag.UPDATE:// 升级 还加上去
                         startDownload(btn, appInfo);
@@ -217,6 +217,25 @@ public class DownloadButtonController2Detail {
                             }else {
                                 download(btn, appInfoBean);
                             }
+                        }
+                    }
+                });
+    }
+
+    //    开启下载
+    public void ReDownload(final DownloadProgressButton2Detail btn, final AppInfoBean appInfoBean){
+
+        Observable<Boolean> permissionObservable = PermissionUtil.requestPermission(btn.getContext(), WRITE_EXTERNAL_STORAGE);
+        Observable<Boolean> deleteObservable = (Observable<Boolean>) mRxDownload.deleteServiceDownload(appInfoBean.getAppDownloadInfo().getDownloadUrl(), true);
+
+        Observable<Boolean> ReDownloadObservable = Observable.merge(permissionObservable,deleteObservable);
+
+        ReDownloadObservable
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) {
+                        if (aBoolean) {
+                            download(btn, appInfoBean);
                         }
                     }
                 });
@@ -366,7 +385,7 @@ public class DownloadButtonController2Detail {
             flag = event.getFlag();
             btn.setTag(R.id.tag_apk_flag, flag);
 
-            Log.d("hymmm","DownloadConsumer:accept=" + mAppInfo.getDisplayName());
+            Log.d("hymmm","DownloadConsumer:accept=" + mAppInfo.getDisplayName() + flag);
 
             bindClick(btn, mAppInfo);
 
@@ -376,7 +395,7 @@ public class DownloadButtonController2Detail {
                     break;
 
                 case DownloadFlag.NORMAL:
-                    btn.setState(DownloadProgressButton2Detail.STATE_NORMAL);
+                    btn.setState(DownloadProgressButton2Detail.STATE_DOWNLOADING);
                     btn.setCurrentText("開始下載" + "(" + mAppInfo.getApkSize() / 1024 / 1024 + "MB" + ")");
                     break;
 

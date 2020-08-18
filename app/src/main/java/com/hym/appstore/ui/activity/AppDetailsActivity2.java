@@ -60,6 +60,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
+import zlc.season.rxdownload2.entity.DownloadEvent;
+import zlc.season.rxdownload2.entity.DownloadFlag;
 
 public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView, MyInstallListener {
 
@@ -260,11 +262,17 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_details, menu);
-        //加载toolbar.xml 菜单文件
+        getMenuInflater().inflate(R.menu.toolbar_details, menu); //加载toolbar.xml 菜单文件
 
+        int flag = (int) mDownloadDetailBtn.getTag(R.id.tag_apk_flag);
+        if (flag == DownloadFlag.NORMAL){
+            for (int i = 0; i < menu.size(); i++) {
+                menu.getItem(i).getItemId();
+            }
+        }
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -272,17 +280,13 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
                 Toast.makeText(this, "you clicked delete_apk", Toast.LENGTH_SHORT).show();
                 //删除下载记录和删除本地apk
                 mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
-
+                mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
                 break;
             case R.id.re_download:
                 Toast.makeText(this, "you clicked re_download", Toast.LENGTH_SHORT).show();
-                mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_NORMAL);
-                        mDownloadButtonController2Detail.startDownload(mDownloadDetailBtn,mAppInfoBean);
-                    }
-                });
+//                mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
+                mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_DOWNLOADING);
+                mDownloadButtonController2Detail.ReDownload(mDownloadDetailBtn,mAppInfoBean);
                 break;
             case R.id.uninstall:
                 Toast.makeText(this, "you clicked uninstall", Toast.LENGTH_SHORT).show();
@@ -306,28 +310,24 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void PackageAdded(String packageName) {
+        Log.d("hymmm", "AppDetailsActivity2: " + "安装了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
-            mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_FINISH);
-            mDownloadDetailBtn.setCurrentText("运行");
-            mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe(new Consumer<Boolean>() {
-                @Override
-                public void accept(Boolean aBoolean) throws Exception {
-
-                }
-            });
+            mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
+            mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
         }
     }
 
     @Override
     public void PackageRemoved(String packageName) {
+        Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
-            mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_NORMAL);
+            mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
         }
     }
 
     @Override
     public void PackageReplaced(String packageName) {
-        Log.d("hymmm", "ProgressFragment: " + "覆盖安装了应用："+packageName);
+
     }
 
     @Override

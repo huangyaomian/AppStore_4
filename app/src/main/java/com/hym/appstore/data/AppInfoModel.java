@@ -53,8 +53,8 @@ public class AppInfoModel {
     }
 
     //重新下载
-//    public Observable<Boolean> ReDownloadRecord(String url, boolean deleteFile, RxDownload rxDownload){
-////        return (Observable<Boolean>) rxDownload.red;
-//    }
+    public Observable<Boolean> ReDownloadRecord(String url, boolean deleteFile, RxDownload rxDownload){
+        return (Observable<Boolean>) rxDownload.deleteServiceDownload(url,deleteFile);
+    }
 
 }

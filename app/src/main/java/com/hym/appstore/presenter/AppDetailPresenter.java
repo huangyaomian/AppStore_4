@@ -40,5 +40,10 @@ public class AppDetailPresenter extends BasePresenter<AppInfoModel, AppInfoContr
         return mModel.DelDownloadRecord(url,deleteFile,rxDownload);
     }
 
+    //删除下载记录
+    public Observable<Boolean> UpdateDownloadApp(String url, boolean deleteFile,RxDownload rxDownload){
+        return mModel.DelDownloadRecord(url,deleteFile,rxDownload);
+    }
+
 
 }
