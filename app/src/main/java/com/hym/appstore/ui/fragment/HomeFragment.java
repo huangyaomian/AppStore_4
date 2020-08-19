@@ -89,13 +89,6 @@ public class HomeFragment extends ProgressFragment<HomePresenter> implements App
     @Override
     public void showResult(HomeBean homeBean) {
         adapter = new HomeAdapter(getActivity(), homeBean, mRxDownload);
-//        LandingAnimator landingAnimator = new LandingAnimator();
-////        mRecyclerView.setAnimation(landingAnimator);
-////        mRecyclerView.setAdapter(adapter);
-
-
-
-
 
         SlideInBottomAnimationAdapter alphaAdapter = new SlideInBottomAnimationAdapter(adapter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));

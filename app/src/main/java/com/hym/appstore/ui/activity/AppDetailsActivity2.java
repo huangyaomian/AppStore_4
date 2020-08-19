@@ -44,6 +44,7 @@ import com.hym.appstore.presenter.contract.AppInfoContract;
 import com.hym.appstore.service.receiver.MyInstallListener;
 import com.hym.appstore.service.receiver.MyInstallReceiver;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
+import com.hym.appstore.ui.adapter.HomeAdapter;
 import com.hym.appstore.ui.widget.BadgeActionProvider;
 import com.hym.appstore.ui.widget.DownloadButtonController2Detail;
 import com.hym.appstore.ui.widget.DownloadProgressButton2Detail;
@@ -63,7 +64,7 @@ import zlc.season.rxdownload2.RxDownload;
 import zlc.season.rxdownload2.entity.DownloadEvent;
 import zlc.season.rxdownload2.entity.DownloadFlag;
 
-public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView, MyInstallListener {
+public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView, MyInstallListener, DownloadButtonController2Detail.FlagChangeListener {
 
 
     @BindView(R.id.img_icon)
@@ -120,6 +121,9 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
     private MyInstallReceiver mMyInstallReceiver;
     private int mFlag = 0;
 
+
+
+
     @Override
     protected int setLayoutResourceID() {
         return R.layout.activity_app_details2;
@@ -149,7 +153,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         mAppId = mAppInfoBean.getId();
 
         mDownloadButtonController2Detail = new DownloadButtonController2Detail(mRxDownload);
-
+        mDownloadButtonController2Detail.setFlagChangeListener(this);
         mLayoutInflater = LayoutInflater.from(this);
 
     }
@@ -268,7 +272,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         return true;
     }
 
-   /* @Override
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         if (mFlag != 0) {
@@ -281,27 +285,24 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
             }
         }
         return super.onPrepareOptionsMenu(menu);
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_apk:
-
-                Toast.makeText(this, "you clicked delete_apk", Toast.LENGTH_SHORT).show();
                 //删除下载记录和删除本地apk
                 mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
                 mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
                 break;
             case R.id.re_download:
-                Toast.makeText(this, "you clicked re_download", Toast.LENGTH_SHORT).show();
-//                mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
-                mDownloadDetailBtn.setState(DownloadProgressButton2Detail.STATE_DOWNLOADING);
                 mDownloadButtonController2Detail.ReDownload(mDownloadDetailBtn,mAppInfoBean);
                 break;
             case R.id.uninstall:
-                Toast.makeText(this, "you clicked uninstall", Toast.LENGTH_SHORT).show();
                 AppUtils.uninstallApk(this, mAppInfoBean.getPackageName());
+                break;
+            case R.id.cancel_download:
+                mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
                 break;
         }
         return true;
@@ -354,9 +355,12 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         super.onDestroy();
     }
 
+
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        Log.d("hymmm", "onWindowFocusChanged: " + mDownloadDetailBtn.getTag(R.id.tag_apk_flag));
-        super.onWindowFocusChanged(hasFocus);
+    public void getFlagChange() {
+        Log.d("hymmm", "getFlagChange: " + mDownloadDetailBtn.getTag(R.id.tag_apk_flag));
+        mFlag = (int) mDownloadDetailBtn.getTag(R.id.tag_apk_flag);
+        //通知系统更新菜单
+        supportInvalidateOptionsMenu();
     }
 }

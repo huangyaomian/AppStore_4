@@ -45,6 +45,17 @@ public class DownloadButtonController2Detail {
     private RxDownload mRxDownload;
     private Api mApi;
 
+    private FlagChangeListener mFlagChangeListener;
+
+    public interface FlagChangeListener {
+        void getFlagChange();
+    }
+
+    public void setFlagChangeListener(FlagChangeListener listener){
+        this.mFlagChangeListener = listener;
+    }
+
+
     public DownloadButtonController2Detail(RxDownload rxDownload) {
         mRxDownload = rxDownload;
         if (mRxDownload != null) {
@@ -223,23 +234,26 @@ public class DownloadButtonController2Detail {
                 });
     }
 
-    //    开启下载
+    // 重新下載
     public void ReDownload(final DownloadProgressButton2Detail btn, final AppInfoBean appInfoBean){
 
-        Observable<Boolean> permissionObservable = PermissionUtil.requestPermission(btn.getContext(), WRITE_EXTERNAL_STORAGE);
-        Observable<Boolean> deleteObservable = (Observable<Boolean>) mRxDownload.deleteServiceDownload(appInfoBean.getAppDownloadInfo().getDownloadUrl(), true);
-
-        Observable<Boolean> ReDownloadObservable = Observable.merge(permissionObservable,deleteObservable);
-
-        ReDownloadObservable
+        PermissionUtil.requestPermission(btn.getContext(),WRITE_EXTERNAL_STORAGE)
                 .subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean aBoolean) {
                         if (aBoolean) {
-                            download(btn, appInfoBean);
+                            mRxDownload.deleteServiceDownload(appInfoBean.getAppDownloadInfo().getDownloadUrl(), true).subscribe(new Consumer<Object>() {
+                                @Override
+                                public void accept(Object o) throws Exception {
+                                    download(btn, appInfoBean);
+                                }
+                            });
                         }
                     }
                 });
+
+
+
     }
 
     private void download(DownloadProgressButton2Detail btn, AppInfoBean appInfoBean) {
@@ -385,6 +399,7 @@ public class DownloadButtonController2Detail {
             Integer flag = 0;
             flag = event.getFlag();
             btn.setTag(R.id.tag_apk_flag, flag);
+            mFlagChangeListener.getFlagChange();
 
             Log.d("hymmm","DownloadConsumer:accept=" + mAppInfo.getDisplayName() + flag);
 
@@ -396,7 +411,7 @@ public class DownloadButtonController2Detail {
                     break;
 
                 case DownloadFlag.NORMAL:
-                    btn.setState(DownloadProgressButton2Detail.STATE_DOWNLOADING);
+                    btn.setState(DownloadProgressButton2Detail.STATE_NORMAL);
                     btn.setCurrentText("開始下載" + "(" + mAppInfo.getApkSize() / 1024 / 1024 + "MB" + ")");
                     break;
 
