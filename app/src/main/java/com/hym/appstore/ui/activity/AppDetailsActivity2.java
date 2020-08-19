@@ -118,6 +118,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
     private DownloadButtonController2Detail mDownloadButtonController2Detail;
     private AppInfoBean mAppInfoBean;
     private MyInstallReceiver mMyInstallReceiver;
+    private int mFlag = 0;
 
     @Override
     protected int setLayoutResourceID() {
@@ -249,6 +250,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         }
 
 
+//        mFlag = (int);
     }
 
     private void showScreenshot(String screenshot) {
@@ -263,20 +265,29 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_details, menu); //加载toolbar.xml 菜单文件
-
-        int flag = (int) mDownloadDetailBtn.getTag(R.id.tag_apk_flag);
-        if (flag == DownloadFlag.NORMAL){
-            for (int i = 0; i < menu.size(); i++) {
-                menu.getItem(i).getItemId();
-            }
-        }
         return true;
     }
+
+   /* @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        if (mFlag != 0) {
+            if (mFlag == DownloadFlag.NORMAL){
+                for (int i = 0; i < menu.size(); i++) {
+                    if (menu.getItem(i).getItemId() == R.id.delete_apk) {
+                        menu.getItem(i).setVisible(false);
+                    }
+                }
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_apk:
+
                 Toast.makeText(this, "you clicked delete_apk", Toast.LENGTH_SHORT).show();
                 //删除下载记录和删除本地apk
                 mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
@@ -314,7 +325,10 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         if (packageName.equals(mAppInfoBean.getPackageName())) {
             mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
+            //通知系统更新菜单
+            supportInvalidateOptionsMenu();
         }
+
     }
 
     @Override
@@ -322,6 +336,8 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
+            //通知系统更新菜单
+            supportInvalidateOptionsMenu();
         }
     }
 
@@ -336,5 +352,11 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
             this.unregisterReceiver(mMyInstallReceiver);
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        Log.d("hymmm", "onWindowFocusChanged: " + mDownloadDetailBtn.getTag(R.id.tag_apk_flag));
+        super.onWindowFocusChanged(hasFocus);
     }
 }

@@ -146,6 +146,7 @@ public class DownloadButtonController2Detail {
             public void accept(@NonNull Object o) throws Exception {
 
                 int flag = (int) btn.getTag(R.id.tag_apk_flag);
+
                 Log.d("hymmm","bindClick:flag=" + flag);
 
                 switch (flag) {
