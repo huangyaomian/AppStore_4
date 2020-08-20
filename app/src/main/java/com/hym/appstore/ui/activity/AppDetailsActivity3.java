@@ -2,50 +2,40 @@ package com.hym.appstore.ui.activity;
 
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.hym.appstore.R;
 import com.hym.appstore.bean.AppInfoBean;
-import com.hym.appstore.bean.User;
 import com.hym.appstore.common.Constant;
 import com.hym.appstore.common.imageloader.ImageLoader;
-import com.hym.appstore.common.rx.RxBus;
 import com.hym.appstore.common.utils.AppUtils;
 import com.hym.appstore.common.utils.DateUtils;
 import com.hym.appstore.dagger2.component.AppComponent;
 import com.hym.appstore.dagger2.component.DaggerAppDetailComponent;
-import com.hym.appstore.dagger2.component.DaggerMainComponent;
 import com.hym.appstore.dagger2.module.AppDetailModule;
-import com.hym.appstore.dagger2.module.MainModule;
 import com.hym.appstore.presenter.AppDetailPresenter;
 import com.hym.appstore.presenter.contract.AppInfoContract;
 import com.hym.appstore.service.receiver.MyInstallListener;
 import com.hym.appstore.service.receiver.MyInstallReceiver;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
-import com.hym.appstore.ui.adapter.HomeAdapter;
-import com.hym.appstore.ui.widget.BadgeActionProvider;
 import com.hym.appstore.ui.widget.DownloadButtonController2Detail;
 import com.hym.appstore.ui.widget.DownloadProgressButton2Detail;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -58,21 +48,19 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
-import zlc.season.rxdownload2.entity.DownloadEvent;
 import zlc.season.rxdownload2.entity.DownloadFlag;
 
-public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView, MyInstallListener, DownloadButtonController2Detail.FlagChangeListener {
+public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> implements AppInfoContract.AppDetailView, MyInstallListener, DownloadButtonController2Detail.FlagChangeListener {
 
 
     @BindView(R.id.img_icon)
-    ImageView mImgIcon;
-    @BindView(R.id.display_name)
-    TextView mDisplayName;
+    ImageView imgIcon;
+    @BindView(R.id.toolbar_layout)
+    CollapsingToolbarLayout mToolbarLayout;
 
-    @BindView(R.id.view_gallery)
+
+    /*@BindView(R.id.view_gallery)
     LinearLayout viewGallery;
 
     @BindView(R.id.expand_collapse)
@@ -103,12 +91,12 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
     LinearLayout mLinearLayoutBtn;
 
     @Inject
-    RxDownload mRxDownload;
+    RxDownload mRxDownload;*/
 
-    @BindView(R.id.toolbar)
+    @BindView(R.id.tool_bar)
     Toolbar mToolbar;
 
-    @BindView(R.id.appBarLayout)
+    @BindView(R.id.app_bar)
     AppBarLayout mAppBarLayout;
 
 
@@ -126,7 +114,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.activity_app_details2;
+        return R.layout.activity_app_details3;
     }
 
 
@@ -146,15 +134,15 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         mAppInfoBean = (AppInfoBean) getIntent().getSerializableExtra("appInfo");
         if (mAppInfoBean != null) {
             mToolbar.setTitle(mAppInfoBean.getDisplayName());
-            mDisplayName.setText(mAppInfoBean.getDisplayName());
-            ImageLoader.load(Constant.BASE_IMG_URL + mAppInfoBean.getIcon(), mImgIcon);
+            mToolbarLayout.setTitle(mAppInfoBean.getDisplayName());
+            ImageLoader.load(Constant.BASE_IMG_URL + mAppInfoBean.getIcon(), imgIcon);
         }
 
         mAppId = mAppInfoBean.getId();
-
+/*
         mDownloadButtonController2Detail = new DownloadButtonController2Detail(mRxDownload);
         mDownloadButtonController2Detail.setFlagChangeListener(this);
-        mLayoutInflater = LayoutInflater.from(this);
+        mLayoutInflater = LayoutInflater.from(this);*/
 
     }
 
@@ -192,7 +180,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void showAppDetail(AppInfoBean appInfoBean) {
-        if (appInfoBean != null) {
+        /*if (appInfoBean != null) {
             mAppInfoBean = appInfoBean;
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,appInfoBean);
         }
@@ -222,7 +210,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                     AppInfoBean appInfoBean = mAppInfoAdapterSame.getItem(position);
-                    Intent intent = new Intent(AppDetailsActivity2.this, AppDetailsActivity2.class);
+                    Intent intent = new Intent(AppDetailsActivity3.this, AppDetailsActivity3.class);
                     intent.putExtra("appInfo", appInfoBean);
                     intent.putExtra("isAnim", false);
                     startActivity(intent);
@@ -244,26 +232,25 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
                 @Override
                 public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                     AppInfoBean appInfoBean = mAppInfoAdapterRelate.getItem(position);
-                    Intent intent = new Intent(AppDetailsActivity2.this, AppDetailsActivity2.class);
+                    Intent intent = new Intent(AppDetailsActivity3.this, AppDetailsActivity3.class);
                     intent.putExtra("appInfo", appInfoBean);
                     startActivity(intent);
                 }
             });
         } else {
             layoutViewRelate.setVisibility(View.GONE);
-        }
+        }*/
 
 
-//        mFlag = (int);
     }
 
     private void showScreenshot(String screenshot) {
-        List<String> urls = Arrays.asList(screenshot.split(","));
+       /* List<String> urls = Arrays.asList(screenshot.split(","));
         for (String url : urls) {
             ImageView imageView = (ImageView) mLayoutInflater.inflate(R.layout.template_imageview, viewGallery, false);
             ImageLoader.load(Constant.BASE_IMG_URL + url, imageView);
             viewGallery.addView(imageView);
-        }
+        }*/
     }
 
     @Override
@@ -272,7 +259,7 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         return true;
     }
 
-    @Override
+   /* @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         Log.d("hymmm", "onPrepareOptionsMenu: mFlag=" + mFlag);
@@ -304,9 +291,9 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         }
 
         return true;
-    }
+    }*/
 
-    @Override
+   /* @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_apk:
@@ -326,6 +313,8 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
         }
         return true;
     }
+    */
+
 
 
     private void registerMyInstallReceiver(){
@@ -341,20 +330,20 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void PackageAdded(String packageName) {
-        Log.d("hymmm", "AppDetailsActivity2: " + "安装了应用："+packageName);
+        /*Log.d("hymmm", "AppDetailsActivity2: " + "安装了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
             mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
-        }
+        }*/
 
     }
 
     @Override
     public void PackageRemoved(String packageName) {
-        Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
+      /*  Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
-        }
+        }*/
     }
 
     @Override
@@ -373,8 +362,8 @@ public class AppDetailsActivity2 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void getFlagChange() {
-        Log.d("hymmm", "getFlagChange: " + mDownloadDetailBtn.getTag(R.id.tag_apk_flag));
+       /* Log.d("hymmm", "getFlagChange: " + mDownloadDetailBtn.getTag(R.id.tag_apk_flag));
         mFlag = (int) mDownloadDetailBtn.getTag(R.id.tag_apk_flag);
-        this.invalidateOptionsMenu();//通知menu更新
+        this.invalidateOptionsMenu();//通知menu更新*/
     }
 }

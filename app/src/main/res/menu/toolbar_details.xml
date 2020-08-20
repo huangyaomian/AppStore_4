@@ -8,24 +8,28 @@
         android:id="@+id/delete_apk"
         android:icon="@drawable/ic_launcher_background"
         android:title="删除apk"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:visible="false"/>
     <!--never 表示永远显示在菜单中 -->
     <item
         android:id="@+id/re_download"
         android:icon="@drawable/ic_launcher_background"
         android:title="重新下载"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:visible="false"/>
 
     <item
         android:id="@+id/uninstall"
         android:icon="@drawable/ic_launcher_background"
         android:title="卸载"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:visible="false"/>
 
     <item
         android:id="@+id/cancel_download"
         android:icon="@drawable/ic_launcher_background"
         android:title="取消下載"
-        app:showAsAction="never"/>
+        app:showAsAction="never"
+        android:visible="false"/>
 
 </menu>
