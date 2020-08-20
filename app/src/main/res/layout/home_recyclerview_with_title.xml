@@ -22,10 +22,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/home_recyclerview"
         android:clipChildren="false"
-        android:animation="@anim/item_animation_fall_down"
         android:elevation="1dp">
-        <!--        android:scrollbars="vertical"-->
-        <!--        android:scrollbarStyle="outsideOverlay"-->
+
 
     </androidx.recyclerview.widget.RecyclerView>
 

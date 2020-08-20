@@ -60,7 +60,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
     CollapsingToolbarLayout mToolbarLayout;
 
 
-    /*@BindView(R.id.view_gallery)
+    @BindView(R.id.view_gallery)
     LinearLayout viewGallery;
 
     @BindView(R.id.expand_collapse)
@@ -91,13 +91,16 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
     LinearLayout mLinearLayoutBtn;
 
     @Inject
-    RxDownload mRxDownload;*/
+    RxDownload mRxDownload;
 
     @BindView(R.id.tool_bar)
     Toolbar mToolbar;
 
     @BindView(R.id.app_bar)
     AppBarLayout mAppBarLayout;
+
+
+
 
 
     private int mAppId;
@@ -139,10 +142,10 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         }
 
         mAppId = mAppInfoBean.getId();
-/*
+
         mDownloadButtonController2Detail = new DownloadButtonController2Detail(mRxDownload);
         mDownloadButtonController2Detail.setFlagChangeListener(this);
-        mLayoutInflater = LayoutInflater.from(this);*/
+        mLayoutInflater = LayoutInflater.from(this);
 
     }
 
@@ -180,7 +183,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void showAppDetail(AppInfoBean appInfoBean) {
-        /*if (appInfoBean != null) {
+        if (appInfoBean != null) {
             mAppInfoBean = appInfoBean;
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,appInfoBean);
         }
@@ -239,18 +242,18 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
             });
         } else {
             layoutViewRelate.setVisibility(View.GONE);
-        }*/
+        }
 
 
     }
 
     private void showScreenshot(String screenshot) {
-       /* List<String> urls = Arrays.asList(screenshot.split(","));
+        List<String> urls = Arrays.asList(screenshot.split(","));
         for (String url : urls) {
             ImageView imageView = (ImageView) mLayoutInflater.inflate(R.layout.template_imageview, viewGallery, false);
             ImageLoader.load(Constant.BASE_IMG_URL + url, imageView);
             viewGallery.addView(imageView);
-        }*/
+        }
     }
 
     @Override
@@ -259,7 +262,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         return true;
     }
 
-   /* @Override
+   @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         Log.d("hymmm", "onPrepareOptionsMenu: mFlag=" + mFlag);
@@ -291,9 +294,9 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         }
 
         return true;
-    }*/
+    }
 
-   /* @Override
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete_apk:
@@ -313,7 +316,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         }
         return true;
     }
-    */
+
 
 
 
@@ -330,20 +333,20 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void PackageAdded(String packageName) {
-        /*Log.d("hymmm", "AppDetailsActivity2: " + "安装了应用："+packageName);
+        Log.d("hymmm", "AppDetailsActivity2: " + "安装了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
             mPresenter.DelDownloadApp(mAppInfoBean.getAppDownloadInfo().getDownloadUrl(),true,mRxDownload).subscribe();
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
-        }*/
+        }
 
     }
 
     @Override
     public void PackageRemoved(String packageName) {
-      /*  Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
+       Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
-        }*/
+        }
     }
 
     @Override
@@ -362,8 +365,8 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void getFlagChange() {
-       /* Log.d("hymmm", "getFlagChange: " + mDownloadDetailBtn.getTag(R.id.tag_apk_flag));
+        Log.d("hymmm", "getFlagChange: " + mDownloadDetailBtn.getTag(R.id.tag_apk_flag));
         mFlag = (int) mDownloadDetailBtn.getTag(R.id.tag_apk_flag);
-        this.invalidateOptionsMenu();//通知menu更新*/
+        this.invalidateOptionsMenu();//通知menu更新
     }
 }

@@ -1,7 +1,9 @@
 package com.hym.appstore.ui.adapter;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -50,16 +52,19 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
     protected void convert(@NotNull BaseViewHolder baseViewHolder, AppInfoBean appInfoBean) {
 
         ImageLoader.load(baseImgUrl+appInfoBean.getIcon(),baseViewHolder.getView(R.id.img_app_icon));
-        View viewBtn  = baseViewHolder.getView(R.id.btn_download);
 
         if (mBuilder.isShowName){
             baseViewHolder.setText(R.id.home_recyclerview_name,appInfoBean.getDisplayName());
         }
 
-        if (viewBtn instanceof  DownloadProgressButton){
-            DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
-            mDownloadButtonController.handClick(btn,appInfoBean);
-            btn.setClickable(false);
+
+        if (mBuilder.isDownloadBtnVisible){
+            View viewBtn  = baseViewHolder.getView(R.id.btn_download);
+            if (viewBtn instanceof  DownloadProgressButton){
+                DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
+                mDownloadButtonController.handClick(btn,appInfoBean);
+                btn.setClickable(false);
+            }
         }
 
 
@@ -114,9 +119,6 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
 
         }
 
-
-
-
     }
 
 
@@ -129,7 +131,7 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
         private int layoutId = R.layout.home_recyclerview_item;
         private RxDownload mRxDownload;
         private boolean isUpdateStatus = false;
-
+        private boolean isDownloadBtnVisible = false;
 
         public Builder showPosition(boolean b){
             this.isShowPosition = b;
@@ -172,6 +174,11 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
 
         public Builder updateStatus(boolean b){
             this.isUpdateStatus = b;
+            return this;
+        }
+
+        public Builder setIsDownloadBtnVisible(boolean b){
+            this.isDownloadBtnVisible = b;
             return this;
         }
 

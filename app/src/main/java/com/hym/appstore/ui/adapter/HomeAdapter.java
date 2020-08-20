@@ -175,6 +175,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
             viewHolder.homeRecyclerview.setAdapter(mAppInfoAdapter);
 
+
+
             // 设置点击事件
             mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override

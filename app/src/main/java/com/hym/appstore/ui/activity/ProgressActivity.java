@@ -59,7 +59,7 @@ public abstract class ProgressActivity<T extends BasePresenter> extends AppCompa
 
         mViewProgress = findViewById(R.id.view_progress);
         mViewEmpty = findViewById(R.id.view_empty);
-        mViewContent = findViewById(R.id.view_contern);
+        mViewContent = findViewById(R.id.view_content);
         mTextError = findViewById(R.id.text_tip);
         mLoginButton = findViewById(R.id.login_btn);
         setRealContentView();
@@ -132,7 +132,7 @@ public abstract class ProgressActivity<T extends BasePresenter> extends AppCompa
 
     public void showContentView(){
         Log.d("ProgressFragment","showContentView");
-        showView(R.id.view_contern);
+        showView(R.id.view_content);
     }
 
     public void showEmptyView(){
