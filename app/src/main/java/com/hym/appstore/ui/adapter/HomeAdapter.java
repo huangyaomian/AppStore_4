@@ -160,7 +160,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             iconViewHolder.mIconHotRecommend.setOnClickListener(this);
         } else {
             AppViewHolder viewHolder = (AppViewHolder) holder;
-            mAppInfoAdapter = AppInfoAdapter.builder().showPosition(false).showCategoryName(false).showBrief(true).rxDownload(mRxDownload).build();
+            mAppInfoAdapter = AppInfoAdapter.builder().showPosition(false).showCategoryName(false).showBrief(true).showScore(true).rxDownload(mRxDownload).build();
 
             if (viewHolder.type == TYPE_APP){
                 viewHolder.homeRecyclerviewTitle.setText("热门应用");

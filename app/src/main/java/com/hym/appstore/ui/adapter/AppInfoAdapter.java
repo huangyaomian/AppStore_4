@@ -116,6 +116,15 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
 
             }
 
+            if (mBuilder.isShowScore) {
+                TextView txtViewScore = baseViewHolder.getView(R.id.home_recyclerview_score);
+                if (txtViewScore != null){
+                    txtViewScore.setVisibility(mBuilder.isShowScore? View.VISIBLE:View.GONE);
+                    txtViewScore.setText(appInfoBean.getRatingScore() + "");
+                }
+
+            }
+
 
         }
 
@@ -132,6 +141,7 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
         private RxDownload mRxDownload;
         private boolean isUpdateStatus = false;
         private boolean isDownloadBtnVisible = false;
+        private boolean isShowScore = false;
 
         public Builder showPosition(boolean b){
             this.isShowPosition = b;
@@ -179,6 +189,11 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
 
         public Builder setIsDownloadBtnVisible(boolean b){
             this.isDownloadBtnVisible = b;
+            return this;
+        }
+
+        public Builder showScore(boolean b){
+            this.isShowScore = b;
             return this;
         }
 

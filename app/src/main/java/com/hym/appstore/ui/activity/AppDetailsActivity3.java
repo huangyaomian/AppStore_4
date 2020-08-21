@@ -262,7 +262,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         return true;
     }
 
-   @Override
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
         Log.d("hymmm", "onPrepareOptionsMenu: mFlag=" + mFlag);
@@ -272,6 +272,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
             for (int i = 0; i < menu.size(); i++) {
                 if (menu.getItem(i).getItemId() == R.id.delete_apk) {
                     menu.getItem(i).setVisible(true);
+
                 }else if (menu.getItem(i).getItemId() == R.id.re_download){
                     menu.getItem(i).setVisible(true);
                 }
@@ -343,7 +344,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void PackageRemoved(String packageName) {
-       Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
+        Log.d("hymmm", "AppDetailsActivity2: " + "卸載了应用："+packageName);
         if (packageName.equals(mAppInfoBean.getPackageName())) {
             mDownloadButtonController2Detail.handClick(mDownloadDetailBtn,mAppInfoBean);
         }
