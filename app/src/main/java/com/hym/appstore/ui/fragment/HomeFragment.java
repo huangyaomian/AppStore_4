@@ -41,7 +41,7 @@ public class HomeFragment extends ProgressFragment<HomePresenter> implements App
 
     @BindView(R.id.home_rv)
     RecyclerView mRecyclerView;
-    private HomeAdapter adapter;
+    private HomeAdapter mAdapter;
 
     @Inject
     RxDownload mRxDownload;
@@ -64,12 +64,7 @@ public class HomeFragment extends ProgressFragment<HomePresenter> implements App
 
     @Override
     protected void init() {
-        RxBus.getDefault().toObservable(User.class).subscribe(new Consumer<User>() {
-            @Override
-            public void accept(User user) {
-                mPresenter.requestHomeData(true);
-            }
-        });
+
         //这里为了解决recycleview不能撑满全屏的问题，这里layoutManager不管你布局里是否设置，都不准确，所以需要在代码里
         //重新设置MATCH_PARENT
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext()) {
@@ -99,39 +94,13 @@ public class HomeFragment extends ProgressFragment<HomePresenter> implements App
 
     @Override
     public void showResult(HomeBean homeBean) {
-        adapter = new HomeAdapter(getActivity(), homeBean, mRxDownload);
 
-        SlideInBottomAnimationAdapter alphaAdapter = new SlideInBottomAnimationAdapter(adapter);
+        mAdapter = new HomeAdapter(getActivity(), homeBean, mRxDownload);
+
+        SlideInBottomAnimationAdapter alphaAdapter = new SlideInBottomAnimationAdapter(mAdapter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(alphaAdapter));
         Log.d("showResult", String.valueOf(mRecyclerView.getChildCount()));
 
-        adapter.setInstallListener(new HomeAdapter.InstallListener() {
-            @Override
-            public void installAdded(AppInfoAdapter appInfoAdapter,String packageName) {
-                Log.d("hymmm", "安装成功的名称installAdded: " + packageName);
-                for (int i = 0; i < appInfoAdapter.getItemCount(); i++) {
-                    if (appInfoAdapter.getItem(i).getPackageName().equals(packageName)) {
-                        FileUtils.deleteFile(ACache.get(getContext()).getAsString(Constant.APK_DOWNLOAD_DIR) + File.separator + appInfoAdapter.getItem(i).getReleaseKeyHash()+".apk");
-                        View childAt = mRecyclerView.getChildAt(i);
-                        DownloadProgressButton btn = childAt.findViewById(R.id.btn_download);
-                        btn.setStatue(DownloadFlag.NORMAL);
-                        appInfoAdapter.notifyItemChanged(i);
-                        break;
-                    }
-                }
-            }
-
-            @Override
-            public void installRemoved(AppInfoAdapter appInfoAdapter,String packageName) {
-                Log.d("hymmm", "卸载成功的名称installAdded: " + packageName);
-                for (int i = 0; i < appInfoAdapter.getItemCount(); i++) {
-                    if (appInfoAdapter.getItem(i).getPackageName().equals(packageName)) {
-                        appInfoAdapter.notifyItemChanged(i);
-                        break;
-                    }
-                }
-            }
-        });
     }
 
 
@@ -151,15 +120,6 @@ public class HomeFragment extends ProgressFragment<HomePresenter> implements App
         Toast.makeText(getActivity(),"您已拒絕授權!",Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void PackageAdded(String packageName) {
-        adapter.setInstallAdded(packageName);
-    }
-
-    @Override
-    public void PackageRemoved(String packageName) {
-        adapter.setInstallRemoved(packageName);
-    }
 
 
 

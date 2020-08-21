@@ -3,6 +3,7 @@ package com.hym.appstore.ui.fragment;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Trace;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +34,7 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public abstract class ProgressFragment<T extends BasePresenter> extends Fragment implements BaseView, MyInstallListener {
+public abstract class ProgressFragment<T extends BasePresenter> extends Fragment implements BaseView {
 
     private FrameLayout mRootView;
     private View mViewProgress;
@@ -41,6 +42,7 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
     private FrameLayout mViewContent;
     private TextView mTextError;
     private Button mLoginButton;
+    private boolean isShowContent = true;
 
     protected MyApplication mMyApplication;
 
@@ -49,12 +51,11 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
 
     private Unbinder mUnbinder;
 
-    private MyInstallReceiver mMyInstallReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = (FrameLayout) inflater.inflate(R.layout.fragment_progress,container,false);
+        mRootView = (FrameLayout) inflater.inflate(R.layout.fragment_progress, container, false);
         mViewProgress = mRootView.findViewById(R.id.view_progress);
         mViewEmpty = mRootView.findViewById(R.id.view_empty);
         mViewContent = mRootView.findViewById(R.id.view_content);
@@ -73,7 +74,7 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        registerMyInstallReceiver();
+
         mMyApplication = (MyApplication) getActivity().getApplication();
         setupActivityComponent(mMyApplication.getAppComponent());
         setRealContentView();
@@ -83,40 +84,41 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
     }
 
     //子类实现此方法使其点击重新刷新页面
-    public void onEmptyViewClick(){
+    public void onEmptyViewClick() {
 
     }
 
-    protected  void setRealContentView(){
+    protected void setRealContentView() {
         View realContentView = LayoutInflater.from(getActivity()).inflate(setLayoutResourceID(), mViewContent, true);
         mUnbinder = ButterKnife.bind(this, realContentView);
     }
 
-    public void showProgressView(){
-        Log.d("ProgressFragment","showProgressView");
+    public void showProgressView() {
+        Log.d("ProgressFragment", "showProgressView");
         showView(R.id.view_progress);
     }
 
-    public void showContentView(){
-        Log.d("ProgressFragment","showContentView");
+    public void showContentView() {
+        Log.d("hymmm", "showContentView");
         showView(R.id.view_content);
     }
 
-    public void showEmptyView(){
+    public void showEmptyView() {
         showView(R.id.view_empty);
     }
 
-    public void showEmptyView(int resId){
+    public void showEmptyView(int resId) {
         showView(R.id.view_empty);
         mTextError.setText(resId);
     }
 
-    public void showEmptyView(String msg){
+    public void showEmptyView(String msg) {
+        Log.d("hymmm", "showEmptyView");
         showView(R.id.view_empty);
         mTextError.setText(msg);
     }
 
-    public void showEmptyView(String msg, int errorCode){
+    public void showEmptyView(String msg, int errorCode) {
         showEmptyView(msg);
         if (errorCode == BaseException.ERROR_TOKEN || errorCode == BaseException.INVALID_TOKEN) {
             mLoginButton.setVisibility(View.VISIBLE);
@@ -124,20 +126,24 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
             mLoginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getActivity(),LoginActivity.class));
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
                 }
             });
         }
     }
 
-    public void showView(int viewId){
+    public void showView(int viewId) {
         for (int i = 0; i < mRootView.getChildCount(); i++) {
             if (mRootView.getChildAt(i).getId() == viewId) {
                 mRootView.getChildAt(i).setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 mRootView.getChildAt(i).setVisibility(View.GONE);
             }
         }
+    }
+
+    public void setShowContent(boolean b) {
+        this.isShowContent = b;
     }
 
     @Override
@@ -147,13 +153,15 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
 
     @Override
     public void dismissLoading() {
-        showContentView();
+        if (isShowContent) {
+            showContentView();
+        }
     }
 
     @Override
-    public void showError(String msg,int errorCode) {
-        Log.d("ProgressFragment","showError");
-        showEmptyView(msg,errorCode);
+    public void showError(String msg, int errorCode) {
+        Log.d("ProgressFragment", "showError");
+        showEmptyView(msg, errorCode);
     }
 
 
@@ -180,42 +188,13 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
     protected abstract void initEvent();
 
 
-
-
     @Override
     public void onDestroyView() {
-        if(mMyInstallReceiver != null) {
-            getContext().unregisterReceiver(mMyInstallReceiver);
-        }
         super.onDestroyView();
         if (mUnbinder != Unbinder.EMPTY) {
             mUnbinder.unbind();
         }
     }
-
-    private void registerMyInstallReceiver(){
-        mMyInstallReceiver = new MyInstallReceiver();
-        mMyInstallReceiver.registerListener(this);
-        IntentFilter filter = new IntentFilter();
-        filter.addAction("android.intent.action.PACKAGE_ADDED");
-        filter.addAction("android.intent.action.PACKAGE_REMOVED");
-        filter.addAction("android.intent.action.PACKAGE_REPLACED");
-        filter.addDataScheme("package");
-        getContext().registerReceiver(mMyInstallReceiver, filter);
-    }
-
-    @Override
-    public void PackageAdded(String packageName) {
-        Log.d("hymmm", "ProgressFragment: " + "安装了应用："+packageName);
-    }
-
-    @Override
-    public void PackageRemoved(String packageName) {
-        Log.d("hymmm", "ProgressFragment: " + "卸载了应用："+packageName);
-    }
-
-    @Override
-    public void PackageReplaced(String packageName) {
-        Log.d("hymmm", "ProgressFragment: " + "覆盖安装了应用："+packageName);
-    }
 }
+
+

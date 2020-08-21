@@ -1,5 +1,6 @@
 package com.hym.appstore.ui.adapter;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +13,14 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.hym.appstore.R;
 import com.hym.appstore.bean.AppInfoBean;
 import com.hym.appstore.common.imageloader.ImageLoader;
+import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.widget.DownloadButtonController;
 import com.hym.appstore.ui.widget.DownloadProgressButton;
 import com.xuexiang.xui.widget.textview.ExpandableTextView;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.TreeMap;
 
 import zlc.season.rxdownload2.RxDownload;
 
@@ -51,6 +55,18 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, AppInfoBean appInfoBean) {
 
+//        View view  = baseViewHolder.getView(R.id.relativeLayout);
+//        view.setVisibility(View.VISIBLE);
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getContext(), AppDetailsActivity3.class);
+//                intent.putExtra("appInfo",appInfoBean);
+//                getContext().startActivity(intent);
+//            }
+//        });
+
+
         ImageLoader.load(baseImgUrl+appInfoBean.getIcon(),baseViewHolder.getView(R.id.img_app_icon));
 
         if (mBuilder.isShowName){
@@ -60,6 +76,7 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
 
         if (mBuilder.isDownloadBtnVisible){
             View viewBtn  = baseViewHolder.getView(R.id.btn_download);
+            viewBtn.setVisibility(View.VISIBLE);
             if (viewBtn instanceof  DownloadProgressButton){
                 DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
                 mDownloadButtonController.handClick(btn,appInfoBean);
@@ -187,7 +204,7 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
             return this;
         }
 
-        public Builder setIsDownloadBtnVisible(boolean b){
+        public Builder setDownloadBtnVisible(boolean b){
             this.isDownloadBtnVisible = b;
             return this;
         }

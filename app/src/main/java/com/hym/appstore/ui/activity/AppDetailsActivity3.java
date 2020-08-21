@@ -24,8 +24,10 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.hym.appstore.R;
 import com.hym.appstore.bean.AppInfoBean;
+import com.hym.appstore.bean.User;
 import com.hym.appstore.common.Constant;
 import com.hym.appstore.common.imageloader.ImageLoader;
+import com.hym.appstore.common.rx.RxBus;
 import com.hym.appstore.common.utils.AppUtils;
 import com.hym.appstore.common.utils.DateUtils;
 import com.hym.appstore.dagger2.component.AppComponent;
@@ -48,6 +50,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
 import zlc.season.rxdownload2.entity.DownloadFlag;
 
@@ -167,6 +170,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
     @Override
     public void initView() {
+
         mPresenter.getAppDetail(mAppId);
     }
 
@@ -176,6 +180,12 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        RxBus.getDefault().toObservable(User.class).subscribe(new Consumer<User>() {
+            @Override
+            public void accept(User user) {
+                mPresenter.getAppDetail(mAppId);
             }
         });
     }

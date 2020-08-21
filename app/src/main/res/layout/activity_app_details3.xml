@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#60000000"
+    android:background="@color/theme_while"
     android:orientation="horizontal"
     tools:context=".ui.activity.AppDetailsActivity">
 
@@ -15,7 +15,6 @@
         android:id="@+id/view_coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/theme_while"
         android:fitsSystemWindows="true"
         android:visibility="visible"
         android:paddingTop="-20dp"
@@ -81,14 +80,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/theme_while"
                 android:orientation="vertical"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/theme_while"
                     android:orientation="vertical"
                     >
 
@@ -96,7 +93,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:background="@color/theme_while"
                         android:paddingBottom="10dp"
                         android:scrollbars="none">
                         <LinearLayout
@@ -122,7 +118,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
-                            android:background="@color/theme_while"
                             app:etv_animDuration="200"
                             app:etv_maxCollapsedLines="4"
                             app:etv_animAlphaStart="0.7">
@@ -151,7 +146,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:background="@color/theme_while"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         android:padding="15dp">
@@ -266,7 +260,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:background="@color/theme_while"
                         android:gravity="center"
                         android:orientation="vertical"
                         android:visibility="gone"
@@ -303,7 +296,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="100dp"
                         android:layout_marginTop="10dp"
-                        android:background="@color/theme_while"
                         android:gravity="center_horizontal"
                         android:orientation="vertical"
                         android:visibility="gone"

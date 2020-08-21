@@ -127,25 +127,4 @@ public abstract class AppInfoFragment extends ProgressFragment<AppInfoPresenter>
         mAppInfoAdapter.getLoadMoreModule().loadMoreComplete();
     }
 
-    @Override
-    public void PackageAdded(String packageName) {
-
-        for (int i = 0; i < mAppInfoAdapter.getItemCount(); i++) {
-            if (mAppInfoAdapter.getItem(i).getPackageName().equals(packageName)) {
-                mAppInfoAdapter.notifyItemChanged(i);
-                FileUtils.deleteFile(ACache.get(getContext()).getAsString(Constant.APK_DOWNLOAD_DIR) + File.separator + mAppInfoAdapter.getItem(i).getReleaseKeyHash()+".apk");
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void PackageRemoved(String packageName) {
-        for (int i = 0; i < mAppInfoAdapter.getItemCount(); i++) {
-            if (mAppInfoAdapter.getItem(i).getPackageName().equals(packageName)) {
-                mAppInfoAdapter.notifyItemChanged(i);
-                break;
-            }
-        }
-    }
 }

@@ -54,28 +54,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
     RxDownload mRxDownload;
 
-    private InstallListener installListener;
-
     private AppInfoAdapter mAppInfoAdapter;
 
-    public interface InstallListener {
-
-        void installAdded(AppInfoAdapter appInfoAdapter,String packageName);
-        void installRemoved(AppInfoAdapter appInfoAdapter,String packageName);
-
-    }
-
-    public void setInstallListener(InstallListener listener){
-        this.installListener = listener;
-    }
-
-    public void setInstallAdded(String packageName){
-        installListener.installAdded(mAppInfoAdapter,packageName);
-    }
-
-    public void setInstallRemoved(String packageName){
-        installListener.installRemoved(mAppInfoAdapter,packageName);
-    }
 
 
     public HomeAdapter(Context context, HomeBean homeBean,RxDownload rxDownload) {
@@ -178,17 +158,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
 
             // 设置点击事件
-            mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
-                @Override
-                public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                    Toast.makeText(mContext,"onItemClick " + position, Toast.LENGTH_SHORT).show();
-                    AppInfoBean appInfoBean = (AppInfoBean)adapter.getItem(position);
-                    Intent intent = new Intent(mContext, AppDetailsActivity3.class);
-                    intent.putExtra("appInfo",appInfoBean);
-//                    startActivity(intent);
-                    mContext.startActivity(intent);
-                }
-            });
+//            mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
+//                @Override
+//                public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+//                    Toast.makeText(mContext,"onItemClick " + position, Toast.LENGTH_SHORT).show();
+//                    AppInfoBean appInfoBean = (AppInfoBean)adapter.getItem(position);
+//                    Intent intent = new Intent(mContext, AppDetailsActivity3.class);
+//                    intent.putExtra("appInfo",appInfoBean);
+////                    startActivity(intent);
+//                    mContext.startActivity(intent);
+//                }
+//            });
         }
     }
 

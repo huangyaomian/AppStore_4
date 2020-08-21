@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/theme_while"
     tools:context=".ui.fragment.ProgressFragment">
 
 
@@ -30,18 +31,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-
             android:textColor="@color/TextColor"
             android:text="@string/xui_tip_loading_message"/>
 
     </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/view_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/view_empty"
@@ -71,4 +64,12 @@
 
 
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/view_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+
+
 </FrameLayout>

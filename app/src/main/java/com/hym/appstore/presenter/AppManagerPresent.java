@@ -124,12 +124,7 @@ public class AppManagerPresent extends BasePresenter<AppManagerContract.IAppMana
                 .subscribe(new ProgressDisposableObserver<List<AndroidApk>>(mContext,mView) {
                     @Override
                     public void onNext(List<AndroidApk> androidApks) {
-                        if (androidApks.size() ==0 || androidApks ==null){
-                            mView.showError("暂无数据",0);
-                        }else {
-                            mView.showApps(androidApks);
-                        }
-
+                        mView.showApps(androidApks);
                     }
                 });
 

@@ -2,9 +2,9 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/relativeLayout"
     android:paddingTop="8dp"
     android:paddingStart="16dp"
     android:paddingBottom="8dp"
@@ -36,10 +36,11 @@
         />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/img_app_icon"
         android:layout_marginStart="8dp"
+        android:layout_toStartOf="@id/btn_download"
         android:layout_alignTop="@id/img_app_icon"
         android:orientation="vertical">
         <TextView
@@ -80,34 +81,30 @@
             android:textSize="12sp"
             android:maxLines="1"
             android:ellipsize="end"
+
             android:drawablePadding="2dp"
-            android:drawableLeft="@drawable/ic_score"
-            android:visibility="visible"
+            android:drawableStart="@drawable/ic_score"
+            android:visibility="gone"
             android:gravity="center_vertical" />
-
-
 
 
         <com.xuexiang.xui.widget.textview.ExpandableTextView
             android:id="@+id/view_changelog"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/theme_while"
-            android:layout_alignParentBottom="true"
-            android:paddingLeft="8dp"
             app:etv_animDuration="200"
             app:etv_maxCollapsedLines="1"
             app:etv_animAlphaStart="0.7">
 
             <TextView
                 android:id="@+id/expandable_text"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 style="@style/Text_Content"
 
                 />
-
 
             <ImageButton
                 android:id="@+id/expand_collapse"
@@ -119,10 +116,6 @@
                 android:background="@android:color/transparent"/>
 
         </com.xuexiang.xui.widget.textview.ExpandableTextView>
-
-
-
-
 
     </LinearLayout>
 

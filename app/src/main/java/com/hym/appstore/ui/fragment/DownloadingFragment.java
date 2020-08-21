@@ -75,7 +75,13 @@ public class DownloadingFragment extends AppManagerFragment {
 
     @Override
     public void showDownloading(List<DownloadRecord> downloadRecords) {
-        mAdapter.addData(downloadRecords);
+        if (downloadRecords.size() == 0) {
+            setShowContent(false);
+            showEmptyView();
+        }else {
+            mAdapter.addData(downloadRecords);
+        }
+
     }
 
 

@@ -64,7 +64,7 @@ public class DownloadProgressButton2Detail extends androidx.appcompat.widget.App
     private ValueAnimator mProgressAnimation;
 
     //记录当前文字
-    private CharSequence mCurrentText;
+    private CharSequence mCurrentText = "";
 
 
     private int statue=STATE_NORMAL;
