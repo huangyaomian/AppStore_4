@@ -291,7 +291,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
                     menu.getItem(i).setVisible(true);
                 }
             }
-        }else if (mFlag == DownloadFlag.INSTALLED){
+        }else if (mFlag == DownloadFlag.INSTALLED || mFlag == DownloadFlag.UPDATE){
             for (int i = 0; i < menu.size(); i++) {
                 if (menu.getItem(i).getItemId() == R.id.uninstall) {
                     menu.getItem(i).setVisible(true);

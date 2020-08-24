@@ -1,5 +1,6 @@
 package com.hym.appstore.ui.fragment;
 
+import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -8,9 +9,13 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
 import com.hym.appstore.R;
+import com.hym.appstore.bean.AppInfoBean;
+import com.hym.appstore.common.apkparset.AndroidApk;
 import com.hym.appstore.common.rx.RxSchedulers;
+import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.adapter.DownloadingAdapter;
 
 import java.util.List;
@@ -70,6 +75,18 @@ public class DownloadingFragment extends AppManagerFragment {
             }
         });
 
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                AppInfoBean appInfoBean = new AppInfoBean();
+                DownloadRecord item = (DownloadRecord) adapter.getItem(position);
+                appInfoBean.setId(Integer.parseInt(item.getExtra1()));
+                appInfoBean.setIcon(item.getExtra1());
+                Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
+                intent.putExtra("appInfo",appInfoBean);
+                startActivity(intent);
+            }
+        });
 
     }
 

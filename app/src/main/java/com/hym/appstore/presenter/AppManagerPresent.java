@@ -50,12 +50,13 @@ public class AppManagerPresent extends BasePresenter<AppManagerContract.IAppMana
                     public List<AndroidApk> apply(List<AndroidApk> androidApks, List<DownloadRecord> downloadRecords) throws Exception {
                         List<AndroidApk> newList = new ArrayList<>();
                         List<DownloadRecord> downloadRecords2 = downloadedFilter(downloadRecords);
-
                         for (int i = 0; i < androidApks.size(); i++) {
                             AndroidApk androidApk = androidApks.get(i);
                             for (int j = 0; j < downloadRecords2.size(); j++) {
                                 if (androidApk.getPackageName().equals(downloadRecords2.get(j).getExtra4())) {
                                     androidApk.setDownloadUrl(downloadRecords2.get(j).getUrl());
+                                    androidApk.setId(Integer.parseInt(downloadRecords2.get(j).getExtra1()));
+                                    androidApk.setIcon(downloadRecords2.get(j).getExtra2());
                                     newList.add(androidApk);
                                 }
                             }

@@ -23,6 +23,26 @@ public class AndroidApk implements Comparable<AndroidApk> {
     private String minSdkVersion;
     private String targetSdkVersion;
     private Drawable mDrawable;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private String icon;
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
     private boolean isSystem; // 是否是系统自带的App
 
     private String apkPath;

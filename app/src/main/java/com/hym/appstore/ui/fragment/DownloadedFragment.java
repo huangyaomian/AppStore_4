@@ -52,17 +52,18 @@ public class DownloadedFragment extends AppManagerFragment {
     @Override
     protected void initView() {
         //需要看看能不能通过包名请求
-//        mAdapter.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-//                AppInfoBean appInfoBean = new AppInfoBean();
-//                AndroidApk item = (AndroidApk) adapter.getItem(position);
-//                appInfoBean.setId();
-//                Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
-//                intent.putExtra("appInfo",appInfoBean);
-//                startActivity(intent);
-//            }
-//        });
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                AppInfoBean appInfoBean = new AppInfoBean();
+                AndroidApk item = (AndroidApk) adapter.getItem(position);
+                appInfoBean.setId(item.getId());
+                appInfoBean.setIcon(item.getIcon());
+                Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
+                intent.putExtra("appInfo",appInfoBean);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
