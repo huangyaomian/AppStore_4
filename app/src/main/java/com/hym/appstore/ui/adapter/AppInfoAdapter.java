@@ -1,11 +1,12 @@
 package com.hym.appstore.ui.adapter;
 
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
@@ -16,13 +17,17 @@ import com.hym.appstore.common.imageloader.ImageLoader;
 import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.widget.DownloadButtonController;
 import com.hym.appstore.ui.widget.DownloadProgressButton;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.xuexiang.xui.widget.textview.ExpandableTextView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.TreeMap;
 
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
+import zlc.season.rxdownload2.entity.DownloadFlag;
 
 public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder> implements LoadMoreModule {
 
@@ -54,17 +59,6 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
 
     @Override
     protected void convert(@NotNull BaseViewHolder baseViewHolder, AppInfoBean appInfoBean) {
-
-//        View view  = baseViewHolder.getView(R.id.relativeLayout);
-//        view.setVisibility(View.VISIBLE);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), AppDetailsActivity3.class);
-//                intent.putExtra("appInfo",appInfoBean);
-//                getContext().startActivity(intent);
-//            }
-//        });
 
 
         ImageLoader.load(baseImgUrl+appInfoBean.getIcon(),baseViewHolder.getView(R.id.img_app_icon));
@@ -146,6 +140,8 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
         }
 
     }
+
+
 
 
     public static class Builder{

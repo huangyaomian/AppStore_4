@@ -104,8 +104,6 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
 
 
-
-
     private int mAppId;
     private LayoutInflater mLayoutInflater;
     private AppInfoAdapter mAppInfoAdapterSame;
@@ -114,8 +112,6 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
     private AppInfoBean mAppInfoBean;
     private MyInstallReceiver mMyInstallReceiver;
     private int mFlag = 0;
-
-
 
 
     @Override
@@ -327,8 +323,6 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         }
         return true;
     }
-
-
 
 
     private void registerMyInstallReceiver(){

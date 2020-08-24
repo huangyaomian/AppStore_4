@@ -24,6 +24,7 @@ import com.hym.appstore.common.utils.FileUtils;
 import com.hym.appstore.presenter.AppInfoPresenter;
 import com.hym.appstore.presenter.contract.AppInfoContract;
 import com.hym.appstore.ui.activity.AppDetailsActivity;
+import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
 
 import java.io.File;
@@ -100,12 +101,16 @@ public abstract class AppInfoFragment extends ProgressFragment<AppInfoPresenter>
         mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                Toast.makeText(getContext(),"AppInfoFragment--onItemClick " + position, Toast.LENGTH_SHORT).show();
+//                mMyApplication.setView(view);
+//                AppInfoBean appInfoBean = mAppInfoAdapter.getItem(position);
+//                Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
+//                intent.putExtra("appInfo",appInfoBean);
+//                intent.putExtra("isAnim",true);
+//                startActivity(intent);
                 mMyApplication.setView(view);
                 AppInfoBean appInfoBean = mAppInfoAdapter.getItem(position);
-                Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
+                Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
                 intent.putExtra("appInfo",appInfoBean);
-                intent.putExtra("isAnim",true);
                 startActivity(intent);
             }
         });

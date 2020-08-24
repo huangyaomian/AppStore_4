@@ -1,5 +1,6 @@
 package com.hym.appstore.ui.fragment;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,11 +10,14 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnItemLongClickListener;
+import com.hym.appstore.bean.AppInfoBean;
 import com.hym.appstore.common.Constant;
 import com.hym.appstore.common.apkparset.AndroidApk;
 import com.hym.appstore.common.rx.RxSchedulers;
 import com.hym.appstore.common.utils.FileUtils;
+import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.adapter.AndroidApkAdapter;
 
 import java.util.List;
@@ -47,7 +51,18 @@ public class DownloadedFragment extends AppManagerFragment {
 
     @Override
     protected void initView() {
-
+        //需要看看能不能通过包名请求
+//        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+//                AppInfoBean appInfoBean = new AppInfoBean();
+//                AndroidApk item = (AndroidApk) adapter.getItem(position);
+//                appInfoBean.setId();
+//                Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
+//                intent.putExtra("appInfo",appInfoBean);
+//                startActivity(intent);
+//            }
+//        });
     }
 
     @Override

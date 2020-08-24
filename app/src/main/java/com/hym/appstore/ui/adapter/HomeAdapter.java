@@ -158,17 +158,15 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
 
             // 设置点击事件
-//            mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
-//                @Override
-//                public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-//                    Toast.makeText(mContext,"onItemClick " + position, Toast.LENGTH_SHORT).show();
-//                    AppInfoBean appInfoBean = (AppInfoBean)adapter.getItem(position);
-//                    Intent intent = new Intent(mContext, AppDetailsActivity3.class);
-//                    intent.putExtra("appInfo",appInfoBean);
-////                    startActivity(intent);
-//                    mContext.startActivity(intent);
-//                }
-//            });
+            mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                    AppInfoBean appInfoBean = (AppInfoBean)adapter.getItem(position);
+                    Intent intent = new Intent(mContext, AppDetailsActivity3.class);
+                    intent.putExtra("appInfo",appInfoBean);
+                    mContext.startActivity(intent);
+                }
+            });
         }
     }
 

@@ -1,9 +1,18 @@
 package com.hym.appstore.ui.fragment;
 
+import android.content.Intent;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chad.library.adapter.base.listener.OnLoadMoreListener;
+import com.hym.appstore.bean.AppInfoBean;
 import com.hym.appstore.dagger2.component.AppComponent;
 import com.hym.appstore.dagger2.component.DaggerAppInfoComponent;
 import com.hym.appstore.dagger2.module.AppInfoModule;
+import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
 
 
@@ -52,6 +61,19 @@ public class SortAppFragment extends AppInfoFragment {
                 mPresenter.requestSortApps(sortId,page,mFlagType);
             }
         });
+
+        // 设置点击事件
+        mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
+                mMyApplication.setView(view);
+                AppInfoBean appInfoBean = mAppInfoAdapter.getItem(position);
+                Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
+                intent.putExtra("appInfo",appInfoBean);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
