@@ -145,16 +145,26 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
     @Override
     public void onBindViewHolder(@NotNull BaseViewHolder holder, int position, @NotNull List<Object> payloads) {
         if (payloads.isEmpty()){
-            super.onBindViewHolder(holder, position, payloads);
-            return;
+            super.onBindViewHolder(holder,position,payloads);
         }else {
-            View viewBtn  = holder.getView(R.id.btn_download);
-            if (viewBtn instanceof  DownloadProgressButton){
-                DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
-                mDownloadButtonController.handClick(btn,getData().get(position));
+            if (mBuilder.isDownloadBtnVisible){
+                String type= (String) payloads.get(0);// 刷新哪个部分 标志位
+                switch(type){
+                    case "download":
+                        View viewBtn  = holder.getView(R.id.btn_download);
+                        if (viewBtn instanceof  DownloadProgressButton){
+                            DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
+                            mDownloadButtonController.handClick(btn,getData().get(position));
+                        }
+                        break;
+
+                }
             }
         }
+
     }
+
+
 
     public static class Builder{
         private boolean isShowPosition = true;

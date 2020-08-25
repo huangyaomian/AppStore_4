@@ -1,6 +1,7 @@
 package com.hym.appstore.ui.adapter;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -40,12 +41,9 @@ public class AndroidApkAdapter extends BaseQuickAdapter<AndroidApk, BaseViewHold
     @Override
     protected void convert(@NotNull BaseViewHolder helper, AndroidApk item) {
         helper.setText(R.id.txt_app_name, item.getAppName());
-
         helper.setImageDrawable(R.id.img_app_icon, item.getDrawable());
-
         final DownloadProgressButton btn = helper.getView(R.id.btn_download);
         final TextView txtStatus = helper.getView(R.id.txt_status);
-
 
         if (flag == FLAG_APK) {
 
@@ -127,10 +125,7 @@ public class AndroidApkAdapter extends BaseQuickAdapter<AndroidApk, BaseViewHold
 
 
     private void deleteApk(AndroidApk item){
-
         // 1. 删除下载记录
-
-
         // 2. 删除文件
         List<AndroidApk> list = this.getData();
         int size = list.size();
@@ -138,32 +133,26 @@ public class AndroidApkAdapter extends BaseQuickAdapter<AndroidApk, BaseViewHold
             AndroidApk androidApk = list.get(i);
             if (item.getPackageName().equals(androidApk.getPackageName())) {
                 this.removeAt(i);
+
                 break;
             }
         }
-
         FileUtils.deleteFile(item.getApkPath());
-
-
     }
-
 
     public Observable<Boolean> isInstalled(final Context context, final String packageName){
 
-
         return   Observable.create(new ObservableOnSubscribe<Boolean>() {
-
-
             @Override
             public void subscribe(ObservableEmitter<Boolean> e) throws Exception {
 
                 e.onNext( AppUtils.isInstalled(context,packageName));
 
             }
-
-
         }).compose(RxSchedulers.<Boolean>io_main());
 
 
     }
+
+
 }

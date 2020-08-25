@@ -84,7 +84,7 @@ public class DownloadingFragment extends AppManagerFragment {
                 AppInfoBean appInfoBean = new AppInfoBean();
                 DownloadRecord item = (DownloadRecord) adapter.getItem(position);
                 appInfoBean.setId(Integer.parseInt(item.getExtra1()));
-                appInfoBean.setIcon(item.getExtra1());
+                appInfoBean.setIcon(item.getExtra2());
                 Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
                 intent.putExtra("appInfo",appInfoBean);
                 startActivity(intent);
@@ -109,9 +109,9 @@ public class DownloadingFragment extends AppManagerFragment {
 
         for (int i = 0; i < mAdapter.getItemCount(); i++) {
             if (mAdapter.getItem(i).getExtra4().equals(packageName)) {
-                FileUtils.deleteFile(mAdapter.getItem(i).getSavePath()+ File.separator+ mAdapter.getItem(i).getSaveName());
+                mPresenter.DelDownloadingApp(mAdapter.getItem(i).getUrl(),true)
+                        .compose(RxSchedulers.io_main()).subscribe();
                 mAdapter.notifyItemChanged(i,"download");
-                Log.d("hymmm", "PackageAdded: mAdapter.getItem(i).getSavePath() =  " + mAdapter.getItem(i).getSavePath()+ File.separator+ mAdapter.getItem(i).getSaveName());
                 break;
             }
         }

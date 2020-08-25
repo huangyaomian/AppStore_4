@@ -103,13 +103,9 @@ public class DownloadedFragment extends AppManagerFragment {
 
     @Override
     public void PackageAdded(String packageName) {
-//        super.PackageAdded(packageName);
         for (int i = 0; i < mAdapter.getItemCount(); i++) {
             if (mAdapter.getItem(i).getPackageName().equals(packageName)) {
-//                mPresenter.DelDownloadingApp(mAdapter.getItem(i).getDownloadUrl(),true)
-//                        .compose(RxSchedulers.io_main()).subscribe();
-                FileUtils.deleteFile(mAdapter.getItem(i).getApkPath());
-                mAdapter.notifyItemChanged(i,"download");
+                mAdapter.notifyItemChanged(i);
                 break;
             }
         }

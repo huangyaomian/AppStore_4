@@ -14,6 +14,8 @@ import com.hym.appstore.ui.widget.DownloadProgressButton;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 import zlc.season.rxdownload2.RxDownload;
 import zlc.season.rxdownload2.entity.DownloadRecord;
 
@@ -48,6 +50,28 @@ public class DownloadingAdapter extends BaseQuickAdapter<DownloadRecord, BaseVie
         }
 
     }
+
+    @Override
+    public void onBindViewHolder(@NotNull BaseViewHolder holder, int position, @NotNull List<Object> payloads) {
+        if (payloads.isEmpty()){
+            super.onBindViewHolder(holder,position,payloads);
+        }else {
+            String type= (String) payloads.get(0);// 刷新哪个部分 标志位
+            switch(type){
+                case "download":
+                    View viewBtn  = holder.getView(R.id.btn_download);
+                    if (viewBtn instanceof  DownloadProgressButton){
+                        DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
+                        mDownloadButtonController.handClick(btn,mDownloadButtonController.downloadRecord2AppInfo(getData().get(position)));
+                    }
+                    break;
+
+            }
+
+        }
+
+    }
+
 
 
 

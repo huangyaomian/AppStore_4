@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.hym.appstore.bean.AppInfoBean;
+import com.hym.appstore.common.rx.RxSchedulers;
 import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
 
@@ -57,21 +58,14 @@ public class UpgradeAppFragment extends AppManagerFragment {
         mAdapter.addData(appInfoBeans);
     }
 
-    @Override
-    public void PackageRemoved(String packageName) {
-        for (int i = 0; i < mAdapter.getData().size(); i++) {
-            if (mAdapter.getData().get(i).getPackageName().equals(packageName)){
-                mAdapter.removeAt(i);
-                break;
-            }
-        }
-    }
 
     @Override
     public void PackageAdded(String packageName) {
         for (int i = 0; i < mAdapter.getData().size(); i++) {
             if (mAdapter.getData().get(i).getPackageName().equals(packageName)){
-                mAdapter.notifyItemChanged(i);
+                mPresenter.DelDownloadingApp(mAdapter.getItem(i).getAppDownloadInfo().getDownloadUrl(),true)
+                        .compose(RxSchedulers.io_main()).subscribe();
+                mAdapter.notifyItemChanged(i,"download");
                 break;
             }
         }

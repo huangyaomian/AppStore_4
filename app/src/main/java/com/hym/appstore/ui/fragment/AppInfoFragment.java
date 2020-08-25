@@ -101,12 +101,6 @@ public abstract class AppInfoFragment extends ProgressFragment<AppInfoPresenter>
         mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-//                mMyApplication.setView(view);
-//                AppInfoBean appInfoBean = mAppInfoAdapter.getItem(position);
-//                Intent intent = new Intent(getActivity(), AppDetailsActivity.class);
-//                intent.putExtra("appInfo",appInfoBean);
-//                intent.putExtra("isAnim",true);
-//                startActivity(intent);
                 mMyApplication.setView(view);
                 AppInfoBean appInfoBean = mAppInfoAdapter.getItem(position);
                 Intent intent = new Intent(getActivity(), AppDetailsActivity3.class);
