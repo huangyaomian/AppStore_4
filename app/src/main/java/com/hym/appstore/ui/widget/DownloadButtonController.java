@@ -101,10 +101,6 @@ public class DownloadButtonController {
                     @Override
                     public ObservableSource<DownloadEvent> apply(@NonNull DownloadEvent event) throws Exception {
 
-                        if (appInfo.getDisplayName().contains("快手")){
-
-                        }
-
                         Log.d("hymmm", "apply: " + appInfo.getDisplayName() + "---" + event.getFlag());
 
                         if (DownloadFlag.FILE_EXIST == event.getFlag()) {
@@ -362,11 +358,11 @@ public class DownloadButtonController {
 
         @Override
         public void accept(@NonNull DownloadEvent event) throws Exception {
-            Integer flag = 0;
+            int flag = 0;
             flag = event.getFlag();
             btn.setTag(R.id.tag_apk_flag, flag);
 
-            Log.d("hymmm","bindClick:accept=" + mAppInfo.getDisplayName());
+            Log.d("hymmm","bindClick:accept=" + mAppInfo.getDisplayName() + flag);
 
             bindClick(btn, mAppInfo);
 

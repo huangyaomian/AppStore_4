@@ -22,6 +22,7 @@ import com.xuexiang.xui.widget.textview.ExpandableTextView;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.TreeMap;
 
 import io.reactivex.annotations.NonNull;
@@ -41,6 +42,8 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
         this.mBuilder = builder;
         mDownloadButtonController = new DownloadButtonController(builder.mRxDownload);
     }
+
+
 
     public static Builder builder(){
         return new Builder();
@@ -73,7 +76,6 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
             if (viewBtn instanceof  DownloadProgressButton){
                 DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
                 mDownloadButtonController.handClick(btn,appInfoBean);
-                btn.setClickable(false);
             }
         }
 
@@ -140,8 +142,19 @@ public class AppInfoAdapter extends BaseQuickAdapter<AppInfoBean, BaseViewHolder
 
     }
 
-
-
+    @Override
+    public void onBindViewHolder(@NotNull BaseViewHolder holder, int position, @NotNull List<Object> payloads) {
+        if (payloads.isEmpty()){
+            super.onBindViewHolder(holder, position, payloads);
+            return;
+        }else {
+            View viewBtn  = holder.getView(R.id.btn_download);
+            if (viewBtn instanceof  DownloadProgressButton){
+                DownloadProgressButton btn = (DownloadProgressButton) viewBtn;
+                mDownloadButtonController.handClick(btn,getData().get(position));
+            }
+        }
+    }
 
     public static class Builder{
         private boolean isShowPosition = true;

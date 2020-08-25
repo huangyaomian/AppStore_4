@@ -1,6 +1,7 @@
 package com.hym.appstore.ui.fragment;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -15,9 +16,11 @@ import com.hym.appstore.R;
 import com.hym.appstore.bean.AppInfoBean;
 import com.hym.appstore.common.apkparset.AndroidApk;
 import com.hym.appstore.common.rx.RxSchedulers;
+import com.hym.appstore.common.utils.FileUtils;
 import com.hym.appstore.ui.activity.AppDetailsActivity3;
 import com.hym.appstore.ui.adapter.DownloadingAdapter;
 
+import java.io.File;
 import java.util.List;
 
 import zlc.season.rxdownload2.entity.DownloadRecord;
@@ -101,6 +104,18 @@ public class DownloadingFragment extends AppManagerFragment {
 
     }
 
+    @Override
+    public void PackageAdded(String packageName) {
+
+        for (int i = 0; i < mAdapter.getItemCount(); i++) {
+            if (mAdapter.getItem(i).getExtra4().equals(packageName)) {
+                FileUtils.deleteFile(mAdapter.getItem(i).getSavePath()+ File.separator+ mAdapter.getItem(i).getSaveName());
+                mAdapter.notifyItemChanged(i,"download");
+                Log.d("hymmm", "PackageAdded: mAdapter.getItem(i).getSavePath() =  " + mAdapter.getItem(i).getSavePath()+ File.separator+ mAdapter.getItem(i).getSaveName());
+                break;
+            }
+        }
+    }
 
 
 }

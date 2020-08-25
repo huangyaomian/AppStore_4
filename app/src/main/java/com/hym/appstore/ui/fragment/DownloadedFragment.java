@@ -77,7 +77,6 @@ public class DownloadedFragment extends AppManagerFragment {
 
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Log.d("hymmm", "onMenuItemClick: " + Constant.BASE_DOWNLOAD_URL + mAdapter.getItem(position).getDownloadUrl());
                         mPresenter.DelDownloadingApp(mAdapter.getItem(position).getDownloadUrl(),true)
                                 .compose(RxSchedulers.io_main()).subscribe();
                         mAdapter.removeAt(position);
@@ -94,7 +93,7 @@ public class DownloadedFragment extends AppManagerFragment {
 
     @Override
     public void showApps(List<AndroidApk> apps) {
-        if (apps.size() ==0 || apps ==null){
+        if (apps.size() == 0){
             showEmptyView("暂无数据");
         }else {
             mAdapter.addData(apps);
@@ -105,11 +104,12 @@ public class DownloadedFragment extends AppManagerFragment {
     @Override
     public void PackageAdded(String packageName) {
 //        super.PackageAdded(packageName);
-        mAdapter.notify();
         for (int i = 0; i < mAdapter.getItemCount(); i++) {
             if (mAdapter.getItem(i).getPackageName().equals(packageName)) {
-                mAdapter.notifyItemChanged(i);
+//                mPresenter.DelDownloadingApp(mAdapter.getItem(i).getDownloadUrl(),true)
+//                        .compose(RxSchedulers.io_main()).subscribe();
                 FileUtils.deleteFile(mAdapter.getItem(i).getApkPath());
+                mAdapter.notifyItemChanged(i,"download");
                 break;
             }
         }
