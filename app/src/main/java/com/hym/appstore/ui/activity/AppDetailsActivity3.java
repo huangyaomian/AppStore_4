@@ -50,6 +50,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import cc.shinichi.library.ImagePreview;
 import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
 import zlc.season.rxdownload2.entity.DownloadFlag;
@@ -197,6 +198,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
         showScreenshot(appInfoBean.getScreenshot());
 
+
         viewIntroduction.setText(appInfoBean.getIntroduction());
 
         txtUpdateTime.setText(DateUtils.formatDate(appInfoBean.getUpdateTime()));
@@ -260,6 +262,22 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
             ImageLoader.load(Constant.BASE_IMG_URL + url, imageView);
             viewGallery.addView(imageView);
         }
+
+        viewGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ImagePreview
+                        .getInstance()
+                        // 上下文，必须是activity，不需要担心内存泄漏，本框架已经处理好；
+                        .setContext(AppDetailsActivity3.this)
+                        // 设置从第几张开始看（索引从0开始）
+                        .setIndex(0)
+                        // 1：第一步生成的imageInfo List
+                        .setImageList(urls)
+                        .start();
+            }
+        });
+
     }
 
     @Override
