@@ -44,6 +44,7 @@ import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.ionicons_typeface_library.Ionicons;
 import com.xuexiang.xui.widget.textview.ExpandableTextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -257,23 +258,42 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
     private void showScreenshot(String screenshot) {
         List<String> urls = Arrays.asList(screenshot.split(","));
+        List<String> completeUrls = new ArrayList<>();
+
         for (String url : urls) {
+            completeUrls.add(Constant.BASE_IMG_URL + url);
+        }
+
+        for (String url : completeUrls) {
             ImageView imageView = (ImageView) mLayoutInflater.inflate(R.layout.template_imageview, viewGallery, false);
-            ImageLoader.load(Constant.BASE_IMG_URL + url, imageView);
+            ImageLoader.load(url, imageView);
             viewGallery.addView(imageView);
         }
 
         viewGallery.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                int index = 0;
+                // 判断当前点击了哪一个
+//                for (int i = 0; i < viewGallery.getChildCount(); i++) {
+//                    ImageView imageView = (ImageView) viewGallery.getChildAt(i);
+//                    Log.d("hymmm", "onClick: " + imageView.getId() +"----"+ view.getId());
+//                    if (view == imageView) {
+//                        index = i;
+//                        break;
+//                    }
+//                }
+
                 ImagePreview
                         .getInstance()
                         // 上下文，必须是activity，不需要担心内存泄漏，本框架已经处理好；
                         .setContext(AppDetailsActivity3.this)
                         // 设置从第几张开始看（索引从0开始）
-                        .setIndex(0)
+                        .setIndex(index)
                         // 1：第一步生成的imageInfo List
-                        .setImageList(urls)
+                        .setImageList(completeUrls)
+                        .setShowCloseButton(true)
                         .start();
             }
         });
