@@ -38,6 +38,7 @@ import com.hym.appstore.presenter.contract.AppInfoContract;
 import com.hym.appstore.service.receiver.MyInstallListener;
 import com.hym.appstore.service.receiver.MyInstallReceiver;
 import com.hym.appstore.ui.adapter.AppInfoAdapter;
+import com.hym.appstore.ui.adapter.screenShortAdapter;
 import com.hym.appstore.ui.widget.DownloadButtonController2Detail;
 import com.hym.appstore.ui.widget.DownloadProgressButton2Detail;
 import com.mikepenz.iconics.IconicsDrawable;
@@ -66,7 +67,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
 
     @BindView(R.id.view_gallery)
-    LinearLayout viewGallery;
+    RecyclerView viewGallery;
 
     @BindView(R.id.expand_collapse)
     ImageButton expandCollapse;
@@ -264,39 +265,30 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
             completeUrls.add(Constant.BASE_IMG_URL + url);
         }
 
-        for (String url : completeUrls) {
-            ImageView imageView = (ImageView) mLayoutInflater.inflate(R.layout.template_imageview, viewGallery, false);
-            ImageLoader.load(url, imageView);
-            viewGallery.addView(imageView);
-        }
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);// 设置 recyclerview 布局方式为横向布局
+        viewGallery.setLayoutManager(layoutManager);
+        screenShortAdapter adapter = new screenShortAdapter();
+        adapter.addData(completeUrls);
+        viewGallery.setAdapter(adapter);
 
-        viewGallery.setOnClickListener(new View.OnClickListener() {
+
+        adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-
-                int index = 0;
-                // 判断当前点击了哪一个
-//                for (int i = 0; i < viewGallery.getChildCount(); i++) {
-//                    ImageView imageView = (ImageView) viewGallery.getChildAt(i);
-//                    Log.d("hymmm", "onClick: " + imageView.getId() +"----"+ view.getId());
-//                    if (view == imageView) {
-//                        index = i;
-//                        break;
-//                    }
-//                }
-
+            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
                 ImagePreview
                         .getInstance()
                         // 上下文，必须是activity，不需要担心内存泄漏，本框架已经处理好；
                         .setContext(AppDetailsActivity3.this)
                         // 设置从第几张开始看（索引从0开始）
-                        .setIndex(index)
+                        .setIndex(position)
                         // 1：第一步生成的imageInfo List
                         .setImageList(completeUrls)
                         .setShowCloseButton(true)
                         .start();
             }
         });
+
 
     }
 

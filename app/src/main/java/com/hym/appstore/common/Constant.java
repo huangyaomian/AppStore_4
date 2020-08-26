@@ -21,8 +21,6 @@ public class Constant {
 
     public static final String BASE_IMG_URL = "http://file.market.xiaomi.com/mfc/thumbnail/png/w150q80/";
 
-    public static final String BASE_DOWNLOAD_URL = "http://fga0.market.xiaomi.com/download/AppStore/";
-
     public static final String APP_UPDATE_LIST = "app_update_list";
 
     public static final String HOME_LIST = "home_list";

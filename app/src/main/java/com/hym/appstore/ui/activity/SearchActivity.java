@@ -1,5 +1,6 @@
 package com.hym.appstore.ui.activity;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.hym.appstore.R;
+import com.hym.appstore.bean.AppInfoBean;
 import com.hym.appstore.bean.SearchResult;
 import com.hym.appstore.common.db.DBManager;
 import com.hym.appstore.common.rx.RxSchedulers;
@@ -334,20 +336,27 @@ public class SearchActivity extends BaseActivity<SearchPresenter> implements Sea
         setRecyclerViewSuggestionGone();
         setLayoutHistoryGone();
         setRecyclerViewResultVisible();
-//
-        mAppInfoAdapter.setNewData(result.getListApp());
+
+        mAppInfoAdapter.addData(result.getListApp());
         mViewProgress.setVisibility(View.GONE);
+
+        // 设置点击事件
+        mAppInfoAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(@androidx.annotation.NonNull BaseQuickAdapter adapter, @androidx.annotation.NonNull View view, int position) {
+                AppInfoBean appInfoBean = (AppInfoBean)adapter.getItem(position);
+                Intent intent = new Intent(SearchActivity.this, AppDetailsActivity3.class);
+                intent.putExtra("appInfo",appInfoBean);
+                SearchActivity.this.startActivity(intent);
+            }
+        });
+
+
     }
 
-    @Override
-    public void showLoading() {
 
-    }
 
-    @Override
-    public void dismissLoading() {
 
-    }
 
     private void setRecyclerViewResultGone() {
         Log.d("SearchActivityhym", "setRecyclerViewResultGone: ");
