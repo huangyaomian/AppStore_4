@@ -43,14 +43,15 @@ public class SubjectFragment extends BaseSubjectFragment {
 
     protected void initRecyclerView(){
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),2));
+        mRecyclerView.setPadding(32,0,32,0);
 
-        SpaceItemDecoration2 dividerDecoration = new SpaceItemDecoration2(5);
+        SpaceItemDecoration2 dividerDecoration = new SpaceItemDecoration2(16);
         mRecyclerView.addItemDecoration(dividerDecoration);
 
         subjectAdapter = new SubjectAdapter();
-        subjectAdapter.setAnimationEnable(true);
+//        subjectAdapter.setAnimationEnable(true);
 
-        subjectAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.AlphaIn);
+//        subjectAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.AlphaIn);
         mRecyclerView.setAdapter(subjectAdapter);
 
     }

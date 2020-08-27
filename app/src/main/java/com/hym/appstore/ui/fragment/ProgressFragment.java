@@ -42,6 +42,7 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
     private FrameLayout mViewContent;
     private TextView mTextError;
     private Button mLoginButton;
+    private Button mRetryButton;
     private boolean isShowContent = true;
 
     protected MyApplication mMyApplication;
@@ -61,6 +62,7 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
         mViewContent = mRootView.findViewById(R.id.view_content);
         mTextError = mRootView.findViewById(R.id.text_tip);
         mLoginButton = mRootView.findViewById(R.id.login_btn);
+        mRetryButton = mRootView.findViewById(R.id.retry);
         mTextError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +129,14 @@ public abstract class ProgressFragment<T extends BasePresenter> extends Fragment
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(getActivity(), LoginActivity.class));
+                }
+            });
+        }else{
+            mRetryButton.setVisibility(View.VISIBLE);
+            mRetryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    init();
                 }
             });
         }

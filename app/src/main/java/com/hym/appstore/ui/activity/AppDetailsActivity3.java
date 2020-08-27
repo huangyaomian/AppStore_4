@@ -30,6 +30,7 @@ import com.hym.appstore.common.imageloader.ImageLoader;
 import com.hym.appstore.common.rx.RxBus;
 import com.hym.appstore.common.utils.AppUtils;
 import com.hym.appstore.common.utils.DateUtils;
+import com.hym.appstore.common.utils.UIUtils;
 import com.hym.appstore.dagger2.component.AppComponent;
 import com.hym.appstore.dagger2.component.DaggerAppDetailComponent;
 import com.hym.appstore.dagger2.module.AppDetailModule;
@@ -41,6 +42,8 @@ import com.hym.appstore.ui.adapter.AppInfoAdapter;
 import com.hym.appstore.ui.adapter.screenShortAdapter;
 import com.hym.appstore.ui.widget.DownloadButtonController2Detail;
 import com.hym.appstore.ui.widget.DownloadProgressButton2Detail;
+import com.hym.appstore.ui.widget.SpaceItemDecoration2;
+import com.hym.appstore.ui.widget.SpaceItemDecoration3;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.mikepenz.ionicons_typeface_library.Ionicons;
 import com.xuexiang.xui.widget.textview.ExpandableTextView;
@@ -215,6 +218,8 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
                     .showName(false).showApkSize(true).showBrief(false).showCategoryName(false).showPosition(false).build();
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
             recyclerViewSameDev.setLayoutManager(linearLayoutManager);
+            SpaceItemDecoration3 spaceItemDecoration3 = new SpaceItemDecoration3(UIUtils.dp2px(16));
+            recyclerViewSameDev.addItemDecoration(spaceItemDecoration3);
 
             mAppInfoAdapterSame.addData(appInfoBean.getSameDevAppInfoList());
             recyclerViewSameDev.setAdapter(mAppInfoAdapterSame);
@@ -238,6 +243,8 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
             mAppInfoAdapterRelate = AppInfoAdapter.builder().layout(R.layout.template_appinfo2_item).showName(false)
                     .showApkSize(true).showBrief(false).showCategoryName(false).showPosition(false).build();
             recyclerViewRelate.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+            SpaceItemDecoration3 spaceItemDecoration3 = new SpaceItemDecoration3(UIUtils.dp2px(16));
+            recyclerViewRelate.addItemDecoration(spaceItemDecoration3);
             mAppInfoAdapterRelate.addData(appInfoBean.getRelateAppInfoList());
             recyclerViewRelate.setAdapter(mAppInfoAdapterRelate);
 
@@ -267,6 +274,8 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);// 设置 recyclerview 布局方式为横向布局
+        SpaceItemDecoration3 dividerDecoration = new SpaceItemDecoration3(UIUtils.dp2px(8));
+        viewGallery.addItemDecoration(dividerDecoration);
         viewGallery.setLayoutManager(layoutManager);
         screenShortAdapter adapter = new screenShortAdapter();
         adapter.addData(completeUrls);

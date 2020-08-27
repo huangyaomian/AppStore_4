@@ -2,6 +2,10 @@ package com.hym.appstore.ui.adapter;
 
 
 
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
@@ -25,9 +29,14 @@ public class SubjectAdapter extends BaseQuickAdapter<Subject, BaseViewHolder> im
         ImageLoader.load(Constant.BASE_IMG_URL +subject.getMticon(),baseViewHolder.getView(R.id.image_view));
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
-
-
-
-
+//    @Override
+//    public void onBindViewHolder(@NotNull BaseViewHolder holder, int position) {
+//        holder.setIsRecyclable(false);
+//        super.onBindViewHolder(holder, position);
+//    }
 }

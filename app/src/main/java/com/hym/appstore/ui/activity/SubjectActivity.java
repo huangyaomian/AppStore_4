@@ -84,7 +84,7 @@ public class SubjectActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
         handNavigation();
     }
 
