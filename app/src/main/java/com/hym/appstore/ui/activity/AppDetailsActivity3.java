@@ -3,9 +3,11 @@ package com.hym.appstore.ui.activity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -120,6 +122,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
     private int mFlag = 0;
 
 
+
     @Override
     protected int setLayoutResourceID() {
         return R.layout.activity_app_details3;
@@ -213,6 +216,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         txtPublisher2.setText(appInfoBean.getPublisherName());
 
         if (appInfoBean.getSameDevAppInfoList().size() > 0) {
+            recyclerViewSameDev.setNestedScrollingEnabled(false);
             layoutViewSameDev.setVisibility(View.VISIBLE);
             mAppInfoAdapterSame = AppInfoAdapter.builder().layout(R.layout.template_appinfo2_item)
                     .showName(false).showApkSize(true).showBrief(false).showCategoryName(false).showPosition(false).build();
@@ -239,6 +243,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         }
 
         if (appInfoBean.getRelateAppInfoList().size() > 0) {
+            recyclerViewRelate.setNestedScrollingEnabled(false);
             layoutViewRelate.setVisibility(View.VISIBLE);
             mAppInfoAdapterRelate = AppInfoAdapter.builder().layout(R.layout.template_appinfo2_item).showName(false)
                     .showApkSize(true).showBrief(false).showCategoryName(false).showPosition(false).build();
@@ -265,6 +270,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
     }
 
     private void showScreenshot(String screenshot) {
+        viewGallery.setNestedScrollingEnabled(false);
         List<String> urls = Arrays.asList(screenshot.split(","));
         List<String> completeUrls = new ArrayList<>();
 
@@ -272,8 +278,19 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
             completeUrls.add(Constant.BASE_IMG_URL + url);
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+
+            @Override
+            public boolean canScrollHorizontally() {
+                return super.canScrollHorizontally();
+            }
+        };
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);// 设置 recyclerview 布局方式为横向布局
+
         SpaceItemDecoration3 dividerDecoration = new SpaceItemDecoration3(UIUtils.dp2px(8));
         viewGallery.addItemDecoration(dividerDecoration);
         viewGallery.setLayoutManager(layoutManager);
@@ -413,4 +430,5 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         mFlag = (int) mDownloadDetailBtn.getTag(R.id.tag_apk_flag);
         this.invalidateOptionsMenu();//通知menu更新
     }
+
 }

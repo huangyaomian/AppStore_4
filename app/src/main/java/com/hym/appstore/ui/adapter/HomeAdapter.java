@@ -3,6 +3,7 @@ package com.hym.appstore.ui.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -144,6 +145,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 
             if (viewHolder.type == TYPE_APP){
                 viewHolder.homeRecyclerviewTitle.setText("热门应用");
+
                 List<AppInfoBean> homeApps = mHomeBean.getHomeApps();
                 List<AppInfoBean> homeApps2 = new ArrayList<>();
                 homeApps2=homeApps.subList(0,10);
@@ -154,6 +156,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
             }
 
             viewHolder.homeRecyclerview.setAdapter(mAppInfoAdapter);
+            viewHolder.homeRecyclerview.setNestedScrollingEnabled(false);
 
 
 
