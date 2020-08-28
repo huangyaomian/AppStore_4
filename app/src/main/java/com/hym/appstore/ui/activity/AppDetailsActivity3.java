@@ -58,6 +58,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import cc.shinichi.library.ImagePreview;
+import cc.shinichi.library.bean.ImageInfo;
 import io.reactivex.functions.Consumer;
 import zlc.season.rxdownload2.RxDownload;
 import zlc.season.rxdownload2.entity.DownloadFlag;
@@ -274,24 +275,22 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
         List<String> urls = Arrays.asList(screenshot.split(","));
         List<String> completeUrls = new ArrayList<>();
 
+        ImageInfo imageInfo;
+        final List<ImageInfo> imageInfoList = new ArrayList<>();
+
         for (String url : urls) {
+            imageInfo = new ImageInfo();
+            imageInfo.setOriginUrl(Constant.HD_BASE_IMG_URL + url);// 原图url
+            imageInfo.setThumbnailUrl(Constant.BASE_IMG_URL + url);// 缩略图url
+            imageInfoList.add(imageInfo);
             completeUrls.add(Constant.BASE_IMG_URL + url);
         }
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
 
-            @Override
-            public boolean canScrollHorizontally() {
-                return super.canScrollHorizontally();
-            }
-        };
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);// 设置 recyclerview 布局方式为横向布局
 
-        SpaceItemDecoration3 dividerDecoration = new SpaceItemDecoration3(UIUtils.dp2px(8));
+        SpaceItemDecoration3 dividerDecoration = new SpaceItemDecoration3(UIUtils.dp2px(4));
         viewGallery.addItemDecoration(dividerDecoration);
         viewGallery.setLayoutManager(layoutManager);
         screenShortAdapter adapter = new screenShortAdapter();
@@ -309,7 +308,7 @@ public class AppDetailsActivity3 extends ProgressActivity<AppDetailPresenter> im
                         // 设置从第几张开始看（索引从0开始）
                         .setIndex(position)
                         // 1：第一步生成的imageInfo List
-                        .setImageList(completeUrls)
+                        .setImageInfoList(imageInfoList)
                         .setShowCloseButton(true)
                         .start();
             }
